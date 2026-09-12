@@ -204,7 +204,8 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
             'columnPhpName' => $column->getPhpName(),
             'params' => implode(', ', $params[0]),
             'column' => $column,
-            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName()
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+            'locale' => '',
         ]);
     }
 
@@ -245,6 +246,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
             'params' => implode(', ', $params[0]),
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
             'column' => $column,
+            'locale' => '',
         ]);
     }
 }

@@ -1,11 +1,11 @@
 /**
 * Current locale
-* @var        string
+* @var        string|null
 */
-protected string $currentLocale;
+protected ?string $currentLocale = null;
 
 /**
 * Current translation objects
 * @var        array[<?= $objectClassName ?>]
 */
-protected array $currentTranslations;
+protected array $currentTranslations = [];

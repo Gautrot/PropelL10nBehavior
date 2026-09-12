@@ -1,2 +1,2 @@
 $this->currentLocale = null;
-$this->currentTranslations = null;
+$this->currentTranslations = [];
