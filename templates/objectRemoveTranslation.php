@@ -9,9 +9,8 @@
  */
 public function removeTranslation(?string $locale = null, ?ConnectionInterface $con = null)
 {
-    if ($locale === null) {
-        $locale = PropelL10n::getLocale();
-    }
+    $locale = $this->resolveLocale($locale);
+
     if (!$this->isNew()) {
         <?= $i18nQueryName; ?>::create()
             ->filterByPrimaryKey(array($this->getPrimaryKey(), $locale))

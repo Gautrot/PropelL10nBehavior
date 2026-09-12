@@ -36,6 +36,8 @@ class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier
             $script .= $this->addSetLocaleAlias((string)$alias);
         }
 
+        $script .= $this->addResolveLocale();
+
         foreach ($this->behavior->getI18nColumns() as $column) {
             $script .= $this->addFilter($column);
             $script .= $this->addFind($column);
@@ -69,6 +71,16 @@ class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier
     protected function addGetLocale(): string
     {
         return $this->renderTemplate('objectGetLocale', [
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function addResolveLocale(): string
+    {
+        return $this->renderTemplate('objectResolveLocale', [
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
         ]);
     }

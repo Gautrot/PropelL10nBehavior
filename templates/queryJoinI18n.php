@@ -10,12 +10,8 @@
  */
 public function joinI18n(?string $locale = null, ?string $relationAlias = null, ?string $joinType = Criteria::LEFT_JOIN): <?= "$queryClass\n"; ?>
 {
-    if ($locale === null) {
-        $locale = $this->getLocale();
-    }
-    if ($locale === null) {
-        $locale = PropelL10n::getLocale();
-    }
+    $locale = $this->resolveLocale($locale);
+
     $relationName = $relationAlias ?: '<?= $i18nRelationName; ?>';
 
     return $this->join<?= $i18nRelationName; ?>($relationAlias, $joinType)

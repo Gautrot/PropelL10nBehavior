@@ -10,12 +10,8 @@
  */
 public function joinWithI18n(?string $locale = null, ?string $joinType = Criteria::LEFT_JOIN)
 {
-    if ($locale === null) {
-        $locale = $this->getLocale();
-    }
-    if ($locale === null) {
-        $locale = PropelL10n::getLocale();
-    }
+    $locale = $this->resolveLocale($locale);
+
     $this->joinI18n($locale, null, $joinType)
         ->with('<?= $i18nRelationName; ?>');
     $this->with['<?= $i18nRelationName; ?>']->setIsWithOneToMany(false);

@@ -9,12 +9,7 @@
  */
 public function getCurrentTranslation(?string $locale = null, ?ConnectionInterface $con = null): <?= "$i18nTablePhpName\n"; ?>
 {
-    if ($locale === null) {
-        $locale = $this->get<?= $localeColumnName; ?>();
-    }
-    if ($locale === null) {
-        $locale = PropelL10n::getLocale();
-    }
+    $locale = $this->resolveLocale($locale);
+
     return $this->getTranslation($locale, $con);
 }
-

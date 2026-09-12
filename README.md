@@ -4,7 +4,6 @@
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/gautrot/propel-l10n-behavior.svg)](https://packagist.org/packages/gautrot/propel-l10n-behavior)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](https://php.net/)
-[![Build Status](https://img.shields.io/scrutinizer/build/g/Gautrot/PropelL10nBehavior.svg)](https://travis-ci.org/Gautrot/PropelL10nBehavior)
 [![GitHub Actions status](https://github.com/Gautrot/PropelL10nBehavior/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Gautrot/PropelL10nBehavior/actions/workflows/ci.yml)
 
 **Propel Localization Behavior** is an extension to Propel's own i18n behavior. It puts an API in front of the i18n

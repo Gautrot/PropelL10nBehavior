@@ -61,6 +61,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
             $script .= $this->addSetLocaleAlias($alias);
         }
 
+        $script .= $this->addResolveLocale();
         $script .= $this->addGetTranslation();
         $script .= $this->addRemoveTranslation();
         $script .= $this->addGetCurrentTranslation();
@@ -90,6 +91,16 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
     protected function addGetLocale(): string
     {
         return $this->renderTemplate('objectGetLocale', [
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function addResolveLocale(): string
+    {
+        return $this->renderTemplate('objectResolveLocale', [
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
         ]);
     }

@@ -157,6 +157,58 @@ class PropelL10n
     }
 
     /**
+     * @param string $locale
+     * @return string[]
+     */
+    public static function getLocaleChain(string $locale): array
+    {
+        $locales = [$locale];
+        $listLocales = [];
+
+        // Get the locale set in PropelL10N
+        $dependency = self::getDependency($locale);
+
+        // Loop to save any variants of a language set from $locale (ex: 'de-CH', 'de-DE', etc.)
+        while ($dependency !== null && !isset($listLocales[$locale])) {
+            $listLocales[$locale] = true;
+
+            if (isset($listLocales[$dependency])) {
+                break;
+            }
+
+            if (Locale::getPrimaryLanguage($dependency) !== Locale::getPrimaryLanguage($locale)) {
+                self::addParentLocales($locales, $locale);
+            }
+
+            $locale = $dependency;
+            $locales[] = $locale;
+        }
+
+        // Adds the general ISO language (ex: keeps 'de' from 'de-DE')
+        self::addParentLocales($locales, $locale);
+
+        // Adds 'en' as the last language available in case of
+        $locales[] = self::getFallback();
+
+        return array_values(array_unique($locales));
+    }
+
+    /**
+     * @param string[] $locales
+     * @param string $locale
+     * @return void
+     */
+    private static function addParentLocales(array &$locales, string $locale): void
+    {
+        $separator = strrpos($locale, '-');
+
+        if ($separator !== false) {
+            $locale = substr($locale, 0, $separator);
+            $locales[] = $locale;
+        }
+    }
+
+    /**
      * Counts the dependencies a locale may have.
      *
      * E.g. given these dependencies:

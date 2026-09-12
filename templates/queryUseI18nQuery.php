@@ -12,12 +12,8 @@
  */
 public function useI18nQuery(?string $locale = null, ?string $relationAlias = null, ?string $joinType = Criteria::LEFT_JOIN): ModelCriteria
 {
-    if ($locale === null) {
-        $locale = $this->getLocale();
-    }
-    if ($locale === null) {
-        $locale = PropelL10n::getLocale();
-    }
+    $locale = $this->resolveLocale($locale);
+
     return $this->joinI18n($locale, $relationAlias, $joinType)
         ->useQuery($relationAlias ?: '<?= $i18nRelationName; ?>', '<?= $namespacedQueryClass; ?>');
 }

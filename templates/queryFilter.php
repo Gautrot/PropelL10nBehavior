@@ -19,12 +19,7 @@
  */
 public function filterBy<?= $columnPhpName; ?>($<?= $columnName; ?>, ?string $comparison = null, ?string $locale = null): <?= "$queryClass\n"; ?>
 {
-    if ($locale === null) {
-        $locale = $this->getLocale();
-    }
-    if ($locale === null) {
-        $locale = PropelL10n::getLocale();
-    }
+    $locale = $this->resolveLocale($locale);
 
     if ($comparison === null) {
         if (is_array($<?= $columnName; ?>)) {

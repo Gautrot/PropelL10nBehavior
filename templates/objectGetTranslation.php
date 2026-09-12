@@ -9,9 +9,8 @@
  */
 public function getTranslation(?string $locale = null, ?ConnectionInterface $con = null): <?= "$i18nTablePhpName\n"; ?>
 {
-    if ($locale === null) {
-        $locale = PropelL10n::getLocale();
-    }
+    $locale = $this->resolveLocale($locale);
+
     if (!isset($this->currentTranslations[$locale])) {
         if ($this-><?= $i18nListVariable; ?> !== null) {
             foreach ($this-><?= $i18nListVariable; ?> as $translation) {
