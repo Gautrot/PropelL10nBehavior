@@ -178,7 +178,6 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      * @param Column $column
      *
      * @return string
-     *
      */
     protected function addTranslatedColumnGetter(Column $column): string
     {
@@ -193,6 +192,12 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
             $objectBuilder->addDefaultAccessorOpen($functionStatement, $column);
         }
         $comment = preg_replace('/^\t/m', '', $comment);
+        // Adds @throws tag to generated method
+        $comment = str_replace(
+            '*/',
+            "* @throws PropelException\n\t */",
+            $comment
+        );
         $functionStatement = preg_replace('/^\t/m', '', $functionStatement);
         preg_match_all('/\$[a-z]+/i', $functionStatement, $params);
         // Adds $locale param in the getter params
@@ -228,9 +233,10 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         }
         $objectBuilder->addMutatorOpenOpen($functionStatement, $column);
         $comment = preg_replace('/^\t/m', '', $comment);
+        // Adds @throws tag to generated method
         $comment = str_replace(
-            '@return     $this|' . $i18nTablePhpName,
-            '@return     $this|' . $tablePhpName,
+            '*/',
+            "* @throws PropelException\n\t */",
             $comment
         );
         $functionStatement = preg_replace('/^\t/m', '', $functionStatement);
