@@ -44,8 +44,8 @@
     "class": "\\Gossi\\Propel\\Behavior\\L10n\\L10nBehavior"
   },
   "scripts": {
-    "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
-    "psalm": "vendor/bin/psalm --config=psalm.xml",
+    "phpstan": "vendor/bin/phpstan analyse -c phpstan.dist.neon",
+    "psalm": "vendor/bin/psalm --config=psalm.dist.xml",
     "phpcs": "phpcs --standard=PSR2 src"
   }
 }

@@ -8,7 +8,9 @@
 */
 public function getCurrentTranslation(?string $locale = null, ?ConnectionInterface $con = null)
 {
+if ($locale === null) {
 $locale = $this->get<?= $localeColumnName ?>();
+}
 if ($locale === null) {
 $locale = PropelL10n::getLocale();
 }
