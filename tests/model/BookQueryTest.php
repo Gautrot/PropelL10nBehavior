@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Propel\Generator\Util\QuickBuilder;
 
 /**
- *
+ * # BookQueryTest
  */
 class BookQueryTest extends TestCase
 {
@@ -21,7 +21,7 @@ class BookQueryTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         if (!class_exists('Book')) {
-            $schema = <<<EOF
+            $schema = <<<XML
 <database name="l10n_behavior" defaultIdMethod="native">
 	<table name="book">
 		<column name="id" required="true" primaryKey="true" autoIncrement="true" type="integer" />
@@ -33,7 +33,7 @@ class BookQueryTest extends TestCase
 		</behavior>
 	</table>
 </database>
-EOF;
+XML;
 
             QuickBuilder::buildSchema($schema);
         }

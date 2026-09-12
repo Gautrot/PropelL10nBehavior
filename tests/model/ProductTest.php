@@ -11,7 +11,7 @@ use ProductQuery;
 use Propel\Generator\Util\QuickBuilder;
 
 /**
- *
+ * # ProductTest
  */
 class ProductTest extends TestCase
 {
@@ -21,7 +21,7 @@ class ProductTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         if (!class_exists('Product')) {
-            $schema = <<<EOF
+            $schema = <<<XML
 <database name="l10n_behavior">
 	<table name="product">
 		<column name="id" required="true" primaryKey="true" autoIncrement="true" type="integer" />
@@ -32,7 +32,7 @@ class ProductTest extends TestCase
 		</behavior>
 	</table>
 </database>
-EOF;
+XML;
 
             QuickBuilder::buildSchema($schema);
         }

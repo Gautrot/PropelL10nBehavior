@@ -11,12 +11,12 @@
 *
 * @param     string $<?php echo $columnName ?> The value to use as filter.
 *              Accepts wildcards (* and % trigger a LIKE)
-* @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-* @param     string $locale Overwrites the locale for this filter
+* @param     string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+* @param     string|null $locale Overwrites the locale for this filter
 *
 * @return    <?php echo $objectClassName ?> The result
 */
-public function findOneBy<?php echo $columnPhpName ?>($<?php echo $columnName ?> , $comparison = null, $locale = null)
+public function findOneBy<?php echo $columnPhpName ?>($<?php echo $columnName ?> , ?string $comparison = null, ?string $locale = null)
 {
 return $this->filterBy<?php echo $columnPhpName ?>($<?php echo $columnName ?> , $comparison, $locale)
 ->findOne();

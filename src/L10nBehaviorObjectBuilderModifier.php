@@ -8,7 +8,7 @@ use Propel\Generator\Builder\Om\ObjectBuilder;
 use Propel\Generator\Model\Column;
 
 /**
- *
+ * # L10nBehaviorObjectBuilderModifier
  */
 class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifier
 {

@@ -8,7 +8,7 @@ use Propel\Generator\Builder\Om\QueryBuilder;
 use Propel\Generator\Model\Column;
 
 /**
- *
+ * # L10nBehaviorQueryBuilderModifier
  */
 class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier
 {

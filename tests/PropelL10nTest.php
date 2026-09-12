@@ -5,7 +5,7 @@ use Gossi\Propel\Behavior\L10n\PropelL10n;
 use PHPUnit\Framework\TestCase;
 
 /**
- *
+ * # PropelL10nTest
  */
 class PropelL10nTest extends TestCase
 {

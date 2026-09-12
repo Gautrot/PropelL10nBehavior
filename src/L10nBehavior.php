@@ -7,7 +7,7 @@ use Propel\Generator\Behavior\I18n\I18nBehavior;
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
 
 /**
- *
+ * # L10nBehavior
  */
 class L10nBehavior extends I18nBehavior
 {

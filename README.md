@@ -1,16 +1,18 @@
 # Propel l10n Behavior
 
-[![Build Status](https://img.shields.io/scrutinizer/build/g/gossi/propel-l10n-behavior.svg?style=flat-square)](https://travis-ci.org/gossi/propel-l10n-behavior)
-[![Latest Stable Version](https://img.shields.io/packagist/v/gossi/propel-l10n-behavior.svg?style=flat-square)](https://packagist.org/packages/gossi/propel-l10n-behavior)
+[![Build Status](https://img.shields.io/scrutinizer/build/g/Gautrot/PropelL10nBehavior.svg)](https://travis-ci.org/gossi/propel-l10n-behavior)
+[![Latest Stable Version](https://img.shields.io/packagist/v/Gautrot/PropelL10nBehavior.svg)](https://packagist.org/packages/gossi/propel-l10n-behavior)
 
-**propel-l10n-behavior** is an extension to Propel's own i18n behavior. Basically, it puts an API in front of the i18n behavior and lets you use Propel's default API but with localized content. You provide the localization you want to use once (globally) and you are ready to go.
+**propel-l10n-behavior** is an extension to Propel's own i18n behavior. It puts an API in front of the i18n
+behavior and lets the user use Propel's default API but with localized content. the user provide the localization they
+want to use once (globally) and they are ready to go.
 
 ## Installation
 
 Install via composer:
 
-```bash
-composer require gossi/propel-l10n-behavior
+```shell
+composer require gautrot/propel-l10n-behavior
 ```
 
 Or insert the following in your composer.json file:
@@ -18,14 +20,15 @@ Or insert the following in your composer.json file:
 ```json
 {
   "require": {
-    "gossi/propel-l10n-behavior": "~0"
+    "gautrot/propel-l10n-behavior": "~1.0"
   }
 }
 ```
 
 ## Locale and Dependencies
 
-When working with locales, you should know about the locales and dependencies you can define for propel-l10n-behavior. There are three mechanisms:
+When working with locales, you should know about the locales and dependencies you can define for propel-l10n-behavior.
+There are three mechanisms:
 
 - Locale (That's the default locale, when retrieving localized content from a Propel object)
 - Dependencies (This is a dependency chain, when a field is not available in the default locale)
@@ -48,7 +51,8 @@ $book = new Book();
 $book->setLocale('ja');
 ```
 
-Now, the locale for book is Japanese, while for all others it stays German (as seen in the example above). You can reset this object-related overwrite by setting the locale to `null`:
+Now, the locale for book is Japanese, while for all others it stays German (as seen in the example above). You can reset
+this object-related overwrite by setting the locale to `null`:
 
 ```php
 $book->setLocale(null);
@@ -104,26 +108,33 @@ PropelL10n::countDependencies('de-CH'); // 2
 
 ### Retrieving a localized Field
 
-Whenever you retrieve a localized field, the behavior will use the following algorithm to find the contents for the field in the most recent locale:
+Whenever you retrieve a localized field, the behavior will use the following algorithm to find the contents for the
+field in the most recent locale:
 
 1. Set default locale as locale
 2. Try to get the field in the set locale
-3. If empty, check if the locale has a dependency and if yes a. if the primary language of the dependency and the current locale are different, work down the language-tag-chain of the current locale b. set dependency as new locale, continue with step 2
+3. If empty, check if the locale has a dependency and if yes a. if the primary language of the dependency and the
+   current locale are different, work down the language-tag-chain of the current locale b. set dependency as new locale,
+   continue with step 2
 4. If no dependency is set for that locale, work down the language-tag-chain
 5. If primary language is empty, use fallback as new locale and continue with step 2
 6. Last step: giving up, return null
 
 Language-tag-chain:
 
-Given the following language-tag: `de-DE-1996` it consists of three subtag. When working down the language-tag-chain it means, the last subtag is dropped, and it will be tried to get the content of a field for the remaining language-tag until there is only the primary language left.
+Given the following language-tag: `de-DE-1996` it consists of three subtag. When working down the language-tag-chain it
+means, the last subtag is dropped, and it will be tried to get the content of a field for the remaining language-tag
+until there is only the primary language left.
 
 ## Usage
 
 ### In your schema.xml
 
-The usage in your schema.xml is very similar to the [i18n](http://Propelorm.org/documentation/behaviors/i18n.html) behavior.
+The usage in your schema.xml is very similar to the [i18n](https://propelorm.org/documentation/behaviors/i18n.html)
+behavior.
 
 ```xml
+
 <table name="book">
     <column name="id" type="INTEGER" primaryKey="true" required="true"
             autoIncrement="true"/>
@@ -136,11 +147,13 @@ The usage in your schema.xml is very similar to the [i18n](http://Propelorm.org/
 </table>
 ```
 
-The parameters are equal to the [i18n parameters](http://Propelorm.org/documentation/behaviors/i18n.html#parameters), except `default_locale` doesn't exist.
+The parameters are equal to the [i18n parameters](https://propelorm.org/documentation/behaviors/i18n.html#parameters),
+except `default_locale` doesn't exist.
 
 ### Using the API
 
-There are three things you need to do once for your app, and you are ready to go and use Propel as if there were not any l10n/i18n behaviors used at all.
+There are three things you need to do once for your app, and you are ready to go and use Propel as if there were not any
+l10n/i18n behaviors used at all.
 
 1. Set the default locale
 2. Set a fallback locale
@@ -209,18 +222,24 @@ $book = ...;
 
 ## Best Practices
 
-**Use the shortest locale possible!** Only use a longer language-tag, when it is necessary to be more specific. If there is no need, just go with `de` instead of `de-DE` (which is kind of redundant anyway). However, go with `de` and `de-CH` as there might be content available which is different for people in germany or switzerland (e.g. a contact address, one for germany the other for switzerland).
+**Use the shortest locale possible!** Only use a longer language-tag, when it is necessary to be more specific. If there
+is no need, just go with `de` instead of `de-DE` (which is kind of redundant anyway). However, go with `de` and `de-CH`
+as there might be content available which is different for people in germany or switzerland (e.g. a contact address, one
+for germany the other for switzerland).
 
 ## Performance
 
-I'm pretty sure this is a performance nightmare. Only Propel API methods are used, means no manual queries so far. Performance optimization can begin after Propel will merge the `data-mapper` branch into `master`. Suggestions are welcome, please post the to the issue tracker.
+I'm pretty sure this is a performance nightmare. Only Propel API methods are used, means no manual queries so far.
+Performance optimization can begin after Propel will merge the `data-mapper` branch into `master`. Suggestions are
+welcome, please post the to the issue tracker.
 
 ## References
 
-There's a lot of material about localization, language-tags. Sometimes it is about finding the right subtag, which can be complicated enough. Here are some good references:
+There's a lot of material about localization, language-tags. Sometimes it is about finding the right subtag, which can
+be complicated enough. Here are some good references:
 
-- [Language Tags](http://www.w3.org/International/articles/language-tags/)
-- [Choosing a Language Tag](http://www.w3.org/International/questions/qa-choosing-language-tags)
+- [Language Tags](https://www.w3.org/International/articles/language-tags/)
+- [Choosing a Language Tag](https://www.w3.org/International/questions/qa-choosing-language-tags)
 - [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)
 - [Language subtag lookup tool](https://r12a.github.io/apps/subtags/)
 

@@ -1,13 +1,13 @@
 /**
 * Adds a JOIN clause to the query using the i18n relation
 *
-* @param string $locale Locale to use for the join condition, e.g. 'fr_FR'
-* @param string $relationAlias optional alias for the relation
-* @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'. Defaults to left join.
+* @param string|null $locale Locale to use for the join condition, e.g. 'fr_FR'
+* @param string|null $relationAlias optional alias for the relation
+* @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'. Defaults to left join.
 *
 * @return <?php echo $queryClass ?> The current query, for fluid interface
 */
-public function joinI18n($locale = null, $relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+public function joinI18n(?string $locale = null, ?string $relationAlias = null, ?string $joinType = Criteria::LEFT_JOIN)
 {
 if ($locale === null) {
 $locale = PropelL10n::getLocale();

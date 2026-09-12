@@ -11,12 +11,12 @@
 *
 * @param     string $<?php echo $columnName ?> The value to use as filter.
 *              Accepts wildcards (* and % trigger a LIKE)
-* @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-* @param     string $locale Overwrites the locale for this filter
+* @param     string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+* @param     string|null $locale Overwrites the locale for this filter
 *
 * @return    <?php echo $queryClass ?> The current query, for fluid interface
 */
-public function filterBy<?php echo $columnPhpName ?>($<?php echo $columnName ?> , $comparison = null, $locale = null)
+public function filterBy<?php echo $columnPhpName ?>($<?php echo $columnName ?> , ?string $comparison = null, ?string $locale = null)
 {
 if ($locale === null) {
 $locale = $this->get<?= $localeColumnName ?>();

@@ -7,27 +7,41 @@
     "behavior",
     "l10n"
   ],
-  "version": "0.1.x-dev",
+  "authors": [
+    {
+      "name": "Thomas Gossmann",
+      "role": "Author"
+    },
+    {
+      "name": "Sébastien Coueille",
+      "role": "Maintenance"
+    },
+    {
+      "name": "Alexandre Gautrot",
+      "email": "alexandre.gautrot@etik.com",
+      "role": "Maintenance"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "Gossi\\Propel\\Behavior\\L10n\\": "src"
     }
   },
   "require": {
-    "php": ">=7.4",
+    "php": "^7.4||>=8.0",
     "ext-intl": "*",
-    "propel/propel": "~2.0@beta",
+    "propel/propel": "~2.0.0-beta4||^2.0",
     "mikey179/vfsstream": "dev-master"
   },
   "require-dev": {
-    "phpunit/phpunit": ">=9.6",
+    "phpunit/phpunit": ">=9.6.33",
     "phpstan/phpstan": "@stable",
     "vimeo/psalm": "@stable",
     "squizlabs/php_codesniffer": "@stable"
   },
   "extra": {
     "name": "l10n",
-    "class": "\\Gossi\\Propel\\Behavior\\L10n\\L10nBehavior"
+    "class": "\\Gautrot\\Propel\\Behavior\\L10n\\L10nBehavior"
   },
   "scripts": {
     "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",

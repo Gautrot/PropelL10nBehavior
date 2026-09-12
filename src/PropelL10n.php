@@ -6,7 +6,7 @@ namespace Gossi\Propel\Behavior\L10n;
 use Locale;
 
 /**
- *
+ * # PropelL10n
  */
 class PropelL10n
 {
