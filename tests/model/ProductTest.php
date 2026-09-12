@@ -49,7 +49,7 @@ XML;
     /**
      * @return void
      */
-    public function testDefaultLocale()
+    public function testDefaultLocale(): void
     {
         $p = new Product();
 
@@ -63,7 +63,7 @@ XML;
     /**
      * @return void
      */
-    public function testDependency()
+    public function testDependency(): void
     {
         $p = new Product();
         $p->setLocale('de-DE');
@@ -75,7 +75,7 @@ XML;
     /**
      * @return void
      */
-    public function testPrimaryLanguage()
+    public function testPrimaryLanguage(): void
     {
         $p = new Product();
         $p->setLocale('ja');
@@ -87,7 +87,7 @@ XML;
     /**
      * @return void
      */
-    public function testFallback()
+    public function testFallback(): void
     {
         $p = new Product();
         $p->setLocale('en');
@@ -101,7 +101,7 @@ XML;
     /**
      * @return void
      */
-    public function testSetterLocale()
+    public function testSetterLocale(): void
     {
         $p = new Product();
         $p->setTitle('delicious', 'en');
@@ -114,7 +114,7 @@ XML;
     /**
      * @return void
      */
-    public function testLocaleTagChain()
+    public function testLocaleTagChain(): void
     {
         PropelL10n::addDependency('it-IT', 'en');
         $p = new Product();

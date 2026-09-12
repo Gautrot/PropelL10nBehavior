@@ -11,7 +11,7 @@ class PropelL10nTest extends TestCase
     /**
      * @return void
      */
-    public function testAddDependency()
+    public function testAddDependency(): void
     {
         PropelL10n::addDependency('de-DE', 'en-US');
 
@@ -22,7 +22,7 @@ class PropelL10nTest extends TestCase
     /**
      * @return void
      */
-    public function testRemoveDepedency()
+    public function testRemoveDepedency(): void
     {
         PropelL10n::addDependency('de-DE', 'en-US');
         PropelL10n::removeDependency('de-DE');
@@ -33,7 +33,7 @@ class PropelL10nTest extends TestCase
     /**
      * @return void
      */
-    public function testSetDependencies()
+    public function testSetDependencies(): void
     {
         $deps = [
             'de-DE' => 'en-US',
@@ -51,7 +51,7 @@ class PropelL10nTest extends TestCase
     /**
      * @return void
      */
-    public function testCurrentLocale()
+    public function testCurrentLocale(): void
     {
         self::assertEquals('en', PropelL10n::getLocale());
 

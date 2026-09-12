@@ -37,7 +37,7 @@ XML;
             QuickBuilder::buildSchema($schema);
         }
 
-        PropelL10n::setLocale('en'); // just reset, may changed in other tests
+        PropelL10n::setLocale('en'); // just reset, may be changed in other tests
         PropelL10n::setFallback('en');
         PropelL10n::setDependencies([
             'de-CH' => 'de-DE',
@@ -50,7 +50,7 @@ XML;
     /**
      * @return void
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $q = BookQuery::create();
         $q->filterByTitle('Lord of the Rings');
@@ -63,7 +63,7 @@ XML;
     /**
      * @return void
      */
-    public function testFind()
+    public function testFind(): void
     {
         $q = BookQuery::create();
         $books = $q->findByTitle('Harry Potter%');
@@ -74,7 +74,7 @@ XML;
     /**
      * @return void
      */
-    public function testFindOne()
+    public function testFindOne(): void
     {
         $q = BookQuery::create();
         $b = $q->findOneByTitle('Harry Potter%');
@@ -86,7 +86,7 @@ XML;
     /**
      * @return void
      */
-    public function testLocales()
+    public function testLocales(): void
     {
         $q = BookQuery::create();
         $q->setLocale('de');
