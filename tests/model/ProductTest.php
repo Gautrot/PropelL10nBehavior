@@ -8,6 +8,7 @@ use Product;
 use ProductI18nQuery;
 use ProductQuery;
 use Propel\Generator\Util\QuickBuilder;
+use Propel\Runtime\Exception\PropelException;
 
 /**
  * # ProductTest
@@ -19,7 +20,7 @@ class ProductTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        if (!class_exists('Product')) {
+        if (!class_exists(Product::class)) {
             $schema = <<<XML
 <database name="l10n_behavior">
 	<table name="product">
@@ -48,6 +49,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testDefaultLocale(): void
     {
@@ -62,6 +64,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testDependency(): void
     {
@@ -74,6 +77,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testPrimaryLanguage(): void
     {
@@ -86,6 +90,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testFallback(): void
     {
@@ -100,6 +105,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testSetterLocale(): void
     {
@@ -113,6 +119,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testLocaleTagChain(): void
     {
@@ -126,6 +133,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     protected function setUp(): void
     {

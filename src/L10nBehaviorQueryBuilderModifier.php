@@ -25,7 +25,7 @@ class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier
      */
     public function queryMethods(QueryBuilder $builder): string
     {
-        $builder->declareClass('Gossi\\Propel\\Behavior\\L10n\\PropelL10n');
+        $builder->declareClass(PropelL10n::class);
         $script = parent::queryMethods($builder);
         $script .= $this->objectAttributes();
         $script .= $this->addSetLocale();

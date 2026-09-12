@@ -8,6 +8,7 @@ use BookQuery;
 use Gossi\Propel\Behavior\L10n\PropelL10n;
 use PHPUnit\Framework\TestCase;
 use Propel\Generator\Util\QuickBuilder;
+use Propel\Runtime\Exception\PropelException;
 
 /**
  * # BookQueryTest
@@ -19,7 +20,7 @@ class BookQueryTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        if (!class_exists('Book')) {
+        if (!class_exists(Book::class)) {
             $schema = <<<XML
 <database name="l10n_behavior" defaultIdMethod="native">
 	<table name="book">
@@ -49,6 +50,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testFilter(): void
     {
@@ -62,6 +64,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testFind(): void
     {
@@ -73,6 +76,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testFindOne(): void
     {
@@ -85,6 +89,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     public function testLocales(): void
     {
@@ -105,6 +110,7 @@ XML;
 
     /**
      * @return void
+     * @throws PropelException
      */
     protected function setUp(): void
     {

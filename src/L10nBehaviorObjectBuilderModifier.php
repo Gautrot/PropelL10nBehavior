@@ -49,7 +49,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     public function objectMethods(ObjectBuilder $builder): string
     {
-        $builder->declareClass('Gossi\\Propel\\Behavior\\L10n\\PropelL10n');
+        $builder->declareClass(PropelL10n::class);
         $this->builder = $builder;
 
         $script = $this->addSetLocale();
@@ -230,10 +230,6 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     protected function addTranslatedColumnSetter(Column $column): string
     {
-        $i18nTablePhpName = $this->builder->getClassNameFromBuilder(
-            $this->builder->getNewStubObjectBuilder($this->behavior->getI18nTable())
-        );
-        $tablePhpName = $this->builder->getObjectClassName();
         $objectBuilder = $this->builder->getNewObjectBuilder($this->behavior->getI18nTable());
         $comment = '';
         $functionStatement = '';

@@ -61,7 +61,7 @@ class L10nBehavior extends I18nBehavior
     }
 
     /**
-     * @return L10nBehaviorObjectBuilderModifier
+     * @return L10nBehaviorObjectBuilderModifier|null
      */
     public function getObjectBuilderModifier(): ?L10nBehaviorObjectBuilderModifier
     {
@@ -73,7 +73,7 @@ class L10nBehavior extends I18nBehavior
     }
 
     /**
-     * @return L10nBehaviorQueryBuilderModifier
+     * @return L10nBehaviorQueryBuilderModifier|null
      */
     public function getQueryBuilderModifier(): ?L10nBehaviorQueryBuilderModifier
     {
