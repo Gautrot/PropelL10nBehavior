@@ -197,15 +197,15 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $comment = preg_replace('/^\t/m', '', $comment);
         $functionStatement = preg_replace('/^\t/m', '', $functionStatement);
         preg_match_all('/\$[a-z]+/i', $functionStatement, $params);
+        // Adds $locale param in the getter params
+        $functionStatement = str_replace('()', '(?string $locale = null)', $functionStatement);
 
         return $this->renderTemplate('objectTranslatedColumnGetter', [
             'comment' => $comment,
             'functionStatement' => $functionStatement,
             'columnPhpName' => $column->getPhpName(),
             'params' => implode(', ', $params[0]),
-            'column' => $column,
-            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
-            'locale' => '',
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName()
         ]);
     }
 
@@ -238,15 +238,15 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         );
         $functionStatement = preg_replace('/^\t/m', '', $functionStatement);
         preg_match_all('/\$[a-z]+/i', $functionStatement, $params);
+        // Adds $locale param in the end of the setter params
+        $functionStatement = str_replace(')', ', ?string $locale = null)', $functionStatement);
 
         return $this->renderTemplate('objectTranslatedColumnSetter', [
             'comment' => $comment,
             'functionStatement' => $functionStatement,
             'columnPhpName' => $column->getPhpName(),
             'params' => implode(', ', $params[0]),
-            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
-            'column' => $column,
-            'locale' => '',
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName()
         ]);
     }
 }
