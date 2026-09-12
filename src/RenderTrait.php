@@ -7,7 +7,6 @@ namespace Gossi\Propel\Behavior\L10n;
  */
 trait RenderTrait
 {
-
     /**
      * @param $name
      * @param array $vars

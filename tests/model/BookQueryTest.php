@@ -56,8 +56,8 @@ XML;
         $q->filterByTitle('Lord of the Rings');
         $b = $q->findOne();
 
-        static::assertNotNull($b);
-        static::assertEquals('Herr der Ringe', $b->getTitle('de'));
+        self::assertNotNull($b);
+        self::assertEquals('Herr der Ringe', $b->getTitle('de'));
     }
 
     /**
@@ -68,7 +68,7 @@ XML;
         $q = BookQuery::create();
         $books = $q->findByTitle('Harry Potter%');
 
-        static::assertCount(2, $books);
+        self::assertCount(2, $books);
     }
 
     /**
@@ -79,8 +79,8 @@ XML;
         $q = BookQuery::create();
         $b = $q->findOneByTitle('Harry Potter%');
 
-        static::assertNotNull($b);
-        static::assertEquals('Harry Potter und der Stein der Weisen', $b->getTitle('de'));
+        self::assertNotNull($b);
+        self::assertEquals('Harry Potter und der Stein der Weisen', $b->getTitle('de'));
     }
 
     /**
@@ -93,14 +93,14 @@ XML;
         $q->filterByTitle('Herr der Ringe');
         $b = $q->findOne();
 
-        static::assertNotNull($b);
+        self::assertNotNull($b);
 
         $q = BookQuery::create();
         $q->setLocale('de');
         $q->filterByTitle('Yubiwa Monogatari', null, 'ja-latn-JP');
         $b = $q->findOne();
 
-        static::assertNotNull($b);
+        self::assertNotNull($b);
     }
 
     /**

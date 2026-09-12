@@ -5,16 +5,16 @@
 * @param string|null $relationAlias optional alias for the relation
 * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'. Defaults to left join.
 *
-* @return <?php echo $queryClass ?> The current query, for fluid interface
+* @return <?= $queryClass ?> The current query, for fluid interface
 */
-public function joinI18n(?string $locale = null, ?string $relationAlias = null, ?string $joinType = Criteria::LEFT_JOIN)
+public function joinI18n(?string $locale = null, ?string $relationAlias = null, ?string $joinType = Criteria::LEFT_JOIN): <?= $queryClass ?>
 {
 if ($locale === null) {
 $locale = PropelL10n::getLocale();
 }
-$relationName = $relationAlias ? $relationAlias : '<?php echo $i18nRelationName ?>';
+$relationName = $relationAlias ? $relationAlias : '<?= $i18nRelationName ?>';
 
 return $this
-->join<?php echo $i18nRelationName ?>($relationAlias, $joinType)
-->addJoinCondition($relationName, $relationName . '.<?php echo $localeColumn ?> = ?', $locale);
+->join<?= $i18nRelationName ?>($relationAlias, $joinType)
+->addJoinCondition($relationName, $relationName . '.<?= $localeColumn ?> = ?', $locale);
 }

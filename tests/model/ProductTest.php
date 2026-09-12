@@ -36,7 +36,7 @@ XML;
             QuickBuilder::buildSchema($schema);
         }
 
-        PropelL10n::setLocale('en'); // just reset, may changed in other tests
+        PropelL10n::setLocale('en'); // just reset, may be changed in other tests
         PropelL10n::setFallback('en');
         PropelL10n::setDependencies([
             'de-CH' => 'de-DE',
@@ -53,11 +53,11 @@ XML;
     {
         $p = new Product();
 
-        static::assertNull($p->getLocale());
+        self::assertNull($p->getLocale());
 
         $p->setTitle('delicious');
-        static::assertEquals('delicious', $p->getTitle());
-        static::assertEquals('en', $p->getCurrentTranslation()->getLocale());
+        self::assertEquals('delicious', $p->getTitle());
+        self::assertEquals('en', $p->getCurrentTranslation()->getLocale());
     }
 
     /**
@@ -69,7 +69,7 @@ XML;
         $p->setLocale('de-DE');
         $p->setTitle('lecker');
 
-        static::assertEquals('lecker', $p->getTitle('de-CH'));
+        self::assertEquals('lecker', $p->getTitle('de-CH'));
     }
 
     /**
@@ -81,7 +81,7 @@ XML;
         $p->setLocale('ja');
         $p->setTitle('おいしい');
 
-        static::assertEquals('おいしい', $p->getTitle('ja-JP'));
+        self::assertEquals('おいしい', $p->getTitle('ja-JP'));
     }
 
     /**
@@ -95,7 +95,7 @@ XML;
         $p->setLocale('de');
         $p->setTitle('lecker');
 
-        static::assertEquals('delicious', $p->getTitle('it'));
+        self::assertEquals('delicious', $p->getTitle('it'));
     }
 
     /**
@@ -107,8 +107,8 @@ XML;
         $p->setTitle('delicious', 'en');
         $p->setTitle('bene', 'it');
 
-        static::assertEquals('delicious', $p->getTitle('en-US'));
-        static::assertEquals('bene', $p->getTitle('it-IT'));
+        self::assertEquals('delicious', $p->getTitle('en-US'));
+        self::assertEquals('bene', $p->getTitle('it-IT'));
     }
 
     /**
@@ -121,7 +121,7 @@ XML;
         $p->setTitle('bene', 'it');
         $p->setTitle('good', 'en');
 
-        static::assertEquals('bene', $p->getTitle('it-IT'));
+        self::assertEquals('bene', $p->getTitle('it-IT'));
     }
 
     /**

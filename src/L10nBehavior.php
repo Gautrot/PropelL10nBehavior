@@ -28,7 +28,7 @@ class L10nBehavior extends I18nBehavior
     /**
      * @var string|null
      */
-    protected $templateDirnameBackup;
+    protected ?string $templateDirnameBackup;
 
     /**
      * @var L10nBehaviorObjectBuilderModifier|null
@@ -97,7 +97,7 @@ class L10nBehavior extends I18nBehavior
     /**
      * @return void
      */
-    public function backupTemplatesDirname()
+    public function backupTemplatesDirname(): void
     {
         $this->templateDirnameBackup = $this->dirname;
 
@@ -107,7 +107,7 @@ class L10nBehavior extends I18nBehavior
     /**
      * @return void
      */
-    public function restoreTemplatesDirname()
+    public function restoreTemplatesDirname(): void
     {
         $this->dirname = (string)$this->templateDirnameBackup;
     }

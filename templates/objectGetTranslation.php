@@ -4,17 +4,17 @@
 * @param string|null $locale Locale to use for the translation, e.g. 'fr_FR'
 * @param ConnectionInterface|null $con an optional connection object
 *
-* @return <?php echo $i18nTablePhpName ?>
+* @return <?= $i18nTablePhpName ?>
 */
-public function getTranslation(?string $locale = null, ?ConnectionInterface $con = null)
+public function getTranslation(?string $locale = null, ?ConnectionInterface $con = null): <?= $i18nTablePhpName ?>
 {
 if ($locale === null) {
 $locale = PropelL10n::getLocale();
 }
 if (!isset($this->currentTranslations[$locale])) {
-if (null !== $this-><?php echo $i18nListVariable ?>) {
-foreach ($this-><?php echo $i18nListVariable ?> as $translation) {
-if ($translation->get<?php echo $localeColumnName ?>() == $locale) {
+if (null !== $this-><?= $i18nListVariable ?>) {
+foreach ($this-><?= $i18nListVariable ?> as $translation) {
+if ($translation->get<?= $localeColumnName ?>() == $locale) {
 $this->currentTranslations[$locale] = $translation;
 
 return $translation;
@@ -22,15 +22,15 @@ return $translation;
 }
 }
 if ($this->isNew()) {
-$translation = new <?php echo $i18nTablePhpName ?>();
-$translation->set<?php echo $localeColumnName ?>($locale);
+$translation = new <?= $i18nTablePhpName ?>();
+$translation->set<?= $localeColumnName ?>($locale);
 } else {
-$translation = <?php echo $i18nQueryName ?>::create()
+$translation = <?= $i18nQueryName ?>::create()
 ->filterByPrimaryKey(array($this->getPrimaryKey(), $locale))
 ->findOneOrCreate($con);
 $this->currentTranslations[$locale] = $translation;
 }
-$this->add<?php echo $i18nSetterMethod ?>($translation);
+$this->add<?= $i18nSetterMethod ?>($translation);
 }
 
 return $this->currentTranslations[$locale];

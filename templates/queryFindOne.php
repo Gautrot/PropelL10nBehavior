@@ -3,21 +3,21 @@
 *
 * Example usage:
 * <code>
-    * $query->findBy<?php echo $columnPhpName ?>('fooValue'); //
-    WHERE <?php echo $columnName ?> = 'fooValue'
-    * $query->findBy<?php echo $columnPhpName ?>('%fooValue%'); //
-    WHERE <?php echo $columnName ?> LIKE '%fooValue%'
-    * </code>
+* $query->findBy<?= $columnPhpName ?>('fooValue'); //
+WHERE <?= $columnName ?> = 'fooValue'
+* $query->findBy<?= $columnPhpName ?>('%fooValue%'); //
+WHERE <?= $columnName ?> LIKE '%fooValue%'
+* </code>
 *
-* @param     string $<?php echo $columnName ?> The value to use as filter.
+* @param     string $<?= $columnName ?> The value to use as filter.
 *              Accepts wildcards (* and % trigger a LIKE)
 * @param     string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 * @param     string|null $locale Overwrites the locale for this filter
 *
-* @return    <?php echo $objectClassName ?> The result
+* @return    <?= $objectClassName ?> The result
 */
-public function findOneBy<?php echo $columnPhpName ?>($<?php echo $columnName ?> , ?string $comparison = null, ?string $locale = null)
+public function findOneBy<?= $columnPhpName ?>($<?= $columnName ?> , ?string $comparison = null, ?string $locale = null): <?= $objectClassName ?>
 {
-return $this->filterBy<?php echo $columnPhpName ?>($<?php echo $columnName ?> , $comparison, $locale)
+return $this->filterBy<?= $columnPhpName ?>($<?= $columnName ?> , $comparison, $locale)
 ->findOne();
 }

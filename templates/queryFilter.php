@@ -3,20 +3,20 @@
 *
 * Example usage:
 * <code>
-    * $query->filterBy<?php echo $columnPhpName ?>('fooValue'); //
-    WHERE <?php echo $columnName ?> = 'fooValue'
-    * $query->filterBy<?php echo $columnPhpName ?>('%fooValue%'); //
-    WHERE <?php echo $columnName ?> LIKE '%fooValue%'
-    * </code>
+* $query->filterBy<?= $columnPhpName ?>('fooValue'); //
+WHERE <?= $columnName ?> = 'fooValue'
+* $query->filterBy<?= $columnPhpName ?>('%fooValue%'); //
+WHERE <?= $columnName ?> LIKE '%fooValue%'
+* </code>
 *
-* @param     string $<?php echo $columnName ?> The value to use as filter.
+* @param     string $<?= $columnName ?> The value to use as filter.
 *              Accepts wildcards (* and % trigger a LIKE)
 * @param     string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 * @param     string|null $locale Overwrites the locale for this filter
 *
-* @return    <?php echo $queryClass ?> The current query, for fluid interface
+* @return    <?= $queryClass ?> The current query, for fluid interface
 */
-public function filterBy<?php echo $columnPhpName ?>($<?php echo $columnName ?> , ?string $comparison = null, ?string $locale = null)
+public function filterBy<?= $columnPhpName ?>($<?= $columnName ?> , ?string $comparison = null, ?string $locale = null): <?= $queryClass ?>
 {
 if ($locale === null) {
 $locale = $this->get<?= $localeColumnName ?>();
@@ -26,15 +26,15 @@ $locale = PropelL10n::getLocale();
 }
 
 if (null === $comparison) {
-if (is_array($<?php echo $columnName ?>)) {
+if (is_array($<?= $columnName ?>)) {
 $comparison = Criteria::IN;
-} elseif (preg_match('/[\%\*]/', $<?php echo $columnName ?>)) {
-$token = str_replace('*', '%', $<?php echo $columnName ?>);
+} elseif (preg_match('/[\%\*]/', $<?= $columnName ?>)) {
+$token = str_replace('*', '%', $<?= $columnName ?>);
 $comparison = Criteria::LIKE;
 }
 }
 
 return $this->useI18nQuery($locale)
-->filterBy<?php echo $columnPhpName ?>($<?php echo $columnName ?> , $comparison)
+->filterBy<?= $columnPhpName ?>($<?= $columnName ?> , $comparison)
 ->endUse();
 }

@@ -5,7 +5,7 @@
 * @param string|null $locale Locale to use for the join condition, e.g. 'fr_FR'
 * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'. Defaults to left join.
 *
-* @return $this|<?php echo $queryClass ?> The current query, for fluid interface
+* @return $this|<?= $queryClass ?> The current query, for fluid interface
 */
 public function joinWithI18n(?string $locale = null, ?string $joinType = Criteria::LEFT_JOIN)
 {
@@ -14,8 +14,8 @@ $locale = PropelL10n::getLocale();
 }
 $this
 ->joinI18n($locale, null, $joinType)
-->with('<?php echo $i18nRelationName ?>');
-$this->with['<?php echo $i18nRelationName ?>']->setIsWithOneToMany(false);
+->with('<?= $i18nRelationName ?>');
+$this->with['<?= $i18nRelationName ?>']->setIsWithOneToMany(false);
 
 return $this;
 }

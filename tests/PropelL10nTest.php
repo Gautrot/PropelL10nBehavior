@@ -15,8 +15,8 @@ class PropelL10nTest extends TestCase
     {
         PropelL10n::addDependency('de-DE', 'en-US');
 
-        static::assertTrue(PropelL10n::hasDependency('de-DE'));
-        static::assertEquals(['de-DE' => 'en-US'], PropelL10n::getDependencies());
+        self::assertTrue(PropelL10n::hasDependency('de-DE'));
+        self::assertEquals(['de-DE' => 'en-US'], PropelL10n::getDependencies());
     }
 
     /**
@@ -27,7 +27,7 @@ class PropelL10nTest extends TestCase
         PropelL10n::addDependency('de-DE', 'en-US');
         PropelL10n::removeDependency('de-DE');
 
-        static::assertCount(0, PropelL10n::getDependencies());
+        self::assertCount(0, PropelL10n::getDependencies());
     }
 
     /**
@@ -43,9 +43,9 @@ class PropelL10nTest extends TestCase
 
         PropelL10n::setDependencies($deps);
 
-        static::assertEquals(2, PropelL10n::countDependencies('de-CH'));
-        static::assertEquals(0, PropelL10n::countDependencies('it-IT'));
-        static::assertEquals($deps, PropelL10n::getDependencies());
+        self::assertEquals(2, PropelL10n::countDependencies('de-CH'));
+        self::assertEquals(0, PropelL10n::countDependencies('it-IT'));
+        self::assertEquals($deps, PropelL10n::getDependencies());
     }
 
     /**
@@ -53,9 +53,9 @@ class PropelL10nTest extends TestCase
      */
     public function testCurrentLocale()
     {
-        static::assertEquals('en', PropelL10n::getLocale());
+        self::assertEquals('en', PropelL10n::getLocale());
 
         PropelL10n::setLocale('de-DE');
-        static::assertEquals('de-DE', PropelL10n::getLocale());
+        self::assertEquals('de-DE', PropelL10n::getLocale());
     }
 }

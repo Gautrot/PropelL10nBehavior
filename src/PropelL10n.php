@@ -12,17 +12,17 @@ class PropelL10n
     /**
      * @var array<string, mixed>
      */
-    private static $dependencies = [];
+    private static array $dependencies = [];
 
     /**
      * @var string
      */
-    private static $locale = 'en';
+    private static string $locale = 'en';
 
     /**
      * @var string
      */
-    private static $fallback = 'en';
+    private static string $fallback = 'en';
 
     /**
      * Returns the fallback locale
@@ -38,8 +38,9 @@ class PropelL10n
      * Sets the fallback locale
      *
      * @param string $locale
+     * @return void
      */
-    public static function setFallback(string $locale)
+    public static function setFallback(string $locale): void
     {
         self::$fallback = PropelL10n::normalize($locale);
     }
@@ -67,8 +68,9 @@ class PropelL10n
      * Sets the current locale
      *
      * @param string $locale
+     * @return void
      */
-    public static function setLocale(string $locale)
+    public static function setLocale(string $locale): void
     {
         self::$locale = PropelL10n::normalize($locale);
     }
@@ -77,8 +79,9 @@ class PropelL10n
      * Removes a dependeny
      *
      * @param string $locale
+     * @return void
      */
-    public static function removeDependency(string $locale)
+    public static function removeDependency(string $locale): void
     {
         unset(self::$dependencies[PropelL10n::normalize($locale)]);
     }
@@ -101,8 +104,9 @@ class PropelL10n
      * which means de-DE depends on en-US and de-CH depends on de-DE.
      *
      * @param array $dependencies
+     * @return void
      */
-    public static function setDependencies(array $dependencies)
+    public static function setDependencies(array $dependencies): void
     {
         self::$dependencies = [];
         foreach ($dependencies as $k => $v) {
@@ -115,8 +119,9 @@ class PropelL10n
      *
      * @param string $locale the new locale which has a dependency
      * @param string $dependsOn the locale on which it depends on
+     * @return void
      */
-    public static function addDependency(string $locale, string $dependsOn)
+    public static function addDependency(string $locale, string $dependsOn): void
     {
         $locale = self::normalize($locale);
         $dependsOn = self::normalize($dependsOn);
