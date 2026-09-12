@@ -61,11 +61,11 @@ jobs:
 
       - name: Run tests with PHPs >= 8.1
         if: matrix.php-version >= '8.1'
-        run: vendor/bin/phpunit --display-deprecations --display-notices --display-warnings --coverage-clover=Tests/coverage.xml
+        run: vendor/bin/phpunit --display-deprecations --display-notices --display-warnings
 
       - name: Run tests with PHPs < 8.1
         if: matrix.php-version < '8.1'
-        run: vendor/bin/phpunit --configuration phpunit-legacy.dist.xml --verbose --coverage-clover=Tests/coverage.xml
+        run: vendor/bin/phpunit --verbose
   testsuite_win:
     name: "Test Suite (Windows)"
     runs-on: windows-2022
@@ -118,11 +118,11 @@ jobs:
 
       - name: Run tests with PHPs >= 8.1
         if: matrix.php-version >= '8.1'
-        run: vendor/bin/phpunit --display-deprecations --display-notices --display-warnings --coverage-clover=Tests/coverage.xml
+        run: vendor/bin/phpunit --display-deprecations --display-notices --display-warnings
 
       - name: Run tests with PHPs < 8.1
         if: matrix.php-version < '8.1'
-        run: vendor/bin/phpunit --configuration phpunit-legacy.dist.xml --verbose --coverage-clover=Tests/coverage.xml
+        run: vendor/bin/phpunit --verbose
   testsuite_macos:
     name: "Test Suite (macOS)"
     runs-on: macos-14
@@ -172,8 +172,8 @@ jobs:
 
       - name: Run tests with PHPs >= 8.1
         if: matrix.php-version >= '8.1'
-        run: vendor/bin/phpunit --display-deprecations --display-notices --display-warnings --coverage-clover=Tests/coverage.xml
+        run: vendor/bin/phpunit --display-deprecations --display-notices --display-warnings
 
       - name: Run tests with PHPs < 8.1
         if: matrix.php-version < '8.1'
-        run: vendor/bin/phpunit --configuration phpunit-legacy.dist.xml --verbose --coverage-clover=Tests/coverage.xml
+        run: vendor/bin/phpunit --verbose
