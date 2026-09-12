@@ -213,7 +213,6 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      *
      * @return string
      * @todo The connection used by getCurrentTranslation in the generated code cannot be specified by the user
-     *
      */
     protected function addTranslatedColumnSetter(Column $column): string
     {

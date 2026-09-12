@@ -1,5 +1,5 @@
-<?php echo $comment ?>
-<?php echo $functionStatement ?>
+<?= $comment ?>
+<?= $functionStatement ?>
 
-return $this->getCurrentTranslation()->get<?php echo $columnPhpName ?>(<?php echo $params ?>);
+return $this->getCurrentTranslation()->get<?= $columnPhpName ?>(<?= $params ?>);
 }

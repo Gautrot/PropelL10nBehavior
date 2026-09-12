@@ -1,6 +1,6 @@
-<?php echo $comment ?>
-<?php echo $functionStatement ?>
-$this->getCurrentTranslation()->set<?php echo $columnPhpName ?>(<?php echo $params ?>);
+<?= $comment ?>
+<?= $functionStatement ?>
+$this->getCurrentTranslation()->set<?= $columnPhpName ?>(<?= $params ?>);
 
 return $this;
 }

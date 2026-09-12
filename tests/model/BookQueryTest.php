@@ -123,7 +123,7 @@ XML;
 
         // harry potter
         $b = new Book();
-        $b->setTitle('Harry Potter and the Philosopher\'s Stone');
+        $b->setTitle("Harry Potter and the Philosopher's Stone");
         $b->setTitle('Harry Potter und der Stein der Weisen', 'de');
         $b->setTitle('Harī Pottā to kenja no ishi', 'ja-latn-JP');
         $b->save();
