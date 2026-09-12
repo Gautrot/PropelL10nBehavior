@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 use Gossi\Propel\Behavior\L10n\PropelL10n;
 use PHPUnit\Framework\TestCase;
