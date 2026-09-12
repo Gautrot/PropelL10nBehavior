@@ -14,9 +14,9 @@ WHERE <?= $columnName ?> LIKE '%fooValue%'
 * @param     string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 * @param     string|null $locale Overwrites the locale for this filter
 *
-* @return    <?= $objectClassName ?> The result
+* @return    <?= $objectClassName ?>|null The result
 */
-public function findOneBy<?= $columnPhpName ?>($<?= $columnName ?> , ?string $comparison = null, ?string $locale = null): <?= $objectClassName ?>
+public function findOneBy<?= $columnPhpName ?>(string $<?= $columnName ?> , ?string $comparison = null, ?string $locale = null): ?<?= $objectClassName ?>
 {
 return $this->filterBy<?= $columnPhpName ?>($<?= $columnName ?> , $comparison, $locale)
 ->findOne();

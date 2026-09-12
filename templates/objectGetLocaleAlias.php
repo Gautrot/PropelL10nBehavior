@@ -2,9 +2,9 @@
 * Gets the locale for translations.
 * Alias for getLocale(), for BC purpose.
 *
-* @return string $locale Locale to use for the translation, e.g. 'fr_FR'
+* @return string|null $locale Locale to use for the translation, e.g. 'fr_FR'
 */
-public function get<?= $alias ?>(): string
+public function get<?= $alias ?>(): ?string
 {
 return $this->get<?= $localeColumnName ?>();
 }

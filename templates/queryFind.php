@@ -16,7 +16,7 @@ WHERE <?= $columnName ?> LIKE '%fooValue%'
 *
 * @return    <?= $objectClassName ?>[]|ObjectCollection The results
 */
-public function findBy<?= $columnPhpName ?>($<?= $columnName ?> , ?string $comparison = null, ?string $locale = null)
+public function findBy<?= $columnPhpName ?>(string $<?= $columnName ?> , ?string $comparison = null, ?string $locale = null)
 {
 return $this->filterBy<?= $columnPhpName ?>($<?= $columnName ?> , $comparison, $locale)
 ->find();

@@ -16,7 +16,7 @@ WHERE <?= $columnName ?> LIKE '%fooValue%'
 *
 * @return    <?= $queryClass ?> The current query, for fluid interface
 */
-public function filterBy<?= $columnPhpName ?>($<?= $columnName ?> , ?string $comparison = null, ?string $locale = null): <?= $queryClass ?>
+public function filterBy<?= $columnPhpName ?>(string $<?= $columnName ?> , ?string $comparison = null, ?string $locale = null): <?= $queryClass ?>
 {
 if ($locale === null) {
 $locale = $this->get<?= $localeColumnName ?>();
