@@ -244,9 +244,9 @@ be complicated enough. Here are some good references:
 - [Language Tags](https://www.w3.org/International/articles/language-tags/)
 - [Choosing a Language Tag](https://www.w3.org/International/questions/qa-choosing-language-tags)
 - [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)
-- [Language subtag lookup tool](https://r12a.github.io/apps/subtags/)
+- [Language subtag lookup tool](https://r12a.github.io/app-subtags/)
 
 Related Specifications:
 
-- [RCP 5646 - Tags for Identifying Languages](https://tools.ietf.org/html/rfc5646)
-- [BCP 47 - Tags for Identifying Languages](https://www.rfc-editor.org/bcp/bcp47.txt)
+- [RCP 5646 - Tags for Identifying Languages](https://datatracker.ietf.org/doc/html/rfc5646)
+- [BCP 47 - Tags for Identifying Languages](https://www.rfc-editor.org/info/rfc5646/)
