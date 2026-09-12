@@ -1,5 +1,6 @@
 /**
-* The default locale to use for translations.
-*
-* @var string
-*/
+ * The default locale to use for translations.
+ *
+ * @var string|null
+ */
+

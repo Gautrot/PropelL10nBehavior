@@ -52,8 +52,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $builder->declareClass('Gossi\\Propel\\Behavior\\L10n\\PropelL10n');
         $this->builder = $builder;
 
-        $script = '';
-        $script .= $this->addSetLocale();
+        $script = $this->addSetLocale();
         $script .= $this->addGetLocale();
 
         $alias = $this->behavior->getParameter('locale_alias');
@@ -179,7 +178,6 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      * @param Column $column
      *
      * @return string
-     * @todo The connection used by getCurrentTranslation in the generated code cannot be specified by the user
      *
      */
     protected function addTranslatedColumnGetter(Column $column): string
@@ -213,7 +211,6 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      * @param Column $column
      *
      * @return string
-     * @todo The connection used by getCurrentTranslation in the generated code cannot be specified by the user
      */
     protected function addTranslatedColumnSetter(Column $column): string
     {

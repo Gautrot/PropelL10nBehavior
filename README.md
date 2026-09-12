@@ -233,9 +233,9 @@ for germany the other for switzerland).
 
 ## Performance
 
-I'm pretty sure this is a performance nightmare. Only Propel API methods are used, means no manual queries so far.
-Performance optimization can begin after Propel will merge the `data-mapper` branch into `master`. Suggestions are
-welcome, please post the to the issue tracker.
+This may be a performance nightmare. Only Propel API methods are used, means no manual queries so far. Performance
+optimization can begin after Propel will merge the `data-mapper` branch into `master`. Suggestions are welcome, please
+post the to the issue tracker.
 
 ## References
 

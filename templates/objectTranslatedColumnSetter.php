@@ -1,6 +1,7 @@
-<?= $comment ?>
-<?= $functionStatement ?>
-$this->getCurrentTranslation($locale)->set<?= $columnPhpName ?>(<?= $params ?>);
+<?= $comment; ?>
+<?= $functionStatement; ?>
+    $this->getCurrentTranslation($locale)->set<?= $columnPhpName; ?>(<?= $params; ?>);
 
-return $this;
+    return $this;
 }
+
