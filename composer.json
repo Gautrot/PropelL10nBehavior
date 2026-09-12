@@ -1,5 +1,5 @@
 {
-  "name": "scoueille/propel-l10n-behavior",
+  "name": "gautrot/propel-l10n-behavior",
   "type": "propel-behavior",
   "license": "MIT",
   "keywords": [
@@ -41,7 +41,7 @@
   },
   "extra": {
     "name": "l10n",
-    "class": "\\Gautrot\\Propel\\Behavior\\L10n\\L10nBehavior"
+    "class": "\\Gossi\\Propel\\Behavior\\L10n\\L10nBehavior"
   },
   "scripts": {
     "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
