@@ -9,7 +9,7 @@
      WHERE <?= $columnName; ?> LIKE '%fooValue%'
  * </code>
  *
- * @param     string|array $<?= $columnName; ?> The value to use as filter.
+ * @param     array|string $<?= $columnName; ?> The value to use as filter.
  *              Accepts wildcards (* and % trigger a LIKE)
  * @param     string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
  * @param     string|null $locale Overwrites the locale for this filter
