@@ -9,7 +9,7 @@
      WHERE <?= $columnName; ?> LIKE '%fooValue%'
  * </code>
  *
- * @param     array|string $<?= $columnName; ?> The value to use as filter.
+ * @param     string|string[] $<?= $columnName; ?> The value to use as filter.
  *              Accepts wildcards (* and % trigger a LIKE)
  * @param     string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
  * @param     string|null $locale Overwrites the locale for this filter
@@ -17,7 +17,7 @@
  * @return    <?= $queryClass; ?> The current query, for fluid interface
  * @throws PropelException
  */
-public function filterBy<?= $columnPhpName; ?>($<?= $columnName; ?> , ?string $comparison = null, ?string $locale = null): <?= "$queryClass\n"; ?>
+public function filterBy<?= $columnPhpName; ?>($<?= $columnName; ?>, ?string $comparison = null, ?string $locale = null): <?= "$queryClass\n"; ?>
 {
     if ($locale === null) {
         $locale = PropelL10n::getLocale();
