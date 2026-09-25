@@ -7,17 +7,17 @@
 >
 	<testsuites>
 		<testsuite name="PropelL10nBehavior Test Suite (Legacy - PHPUnit 9)">
-			<directory>./Tests</directory>
+			<directory>./tests</directory>
 		</testsuite>
 	</testsuites>
 	<coverage cacheDirectory=".phpunit.cache">
 		<exclude>
-			<directory>src/templates/</directory>
-			<directory>tests/</directory>
-			<directory>vendor/</directory>
+			<directory>./src/templates</directory>
+			<directory>./tests</directory>
+			<directory>./vendor</directory>
 		</exclude>
 		<include>
-			<directory suffix=".php">src/</directory>
+			<directory suffix=".php">./src</directory>
 		</include>
 	</coverage>
 </phpunit>
