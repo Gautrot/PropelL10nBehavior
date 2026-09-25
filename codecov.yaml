@@ -1,0 +1,12 @@
+component_management:
+  individual_components:
+    - component_id: "src"
+      paths:
+        - "src/"
+
+    - component_id: "templates"
+      paths:
+        - "templates/"
+
+comment:
+  layout: "header, diff, flags, components"  # show component info in the PR comment
