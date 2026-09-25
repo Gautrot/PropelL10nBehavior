@@ -89,6 +89,18 @@ XML;
 
     /**
      * @return void
+     */
+    public function testFilterList(): void
+    {
+        $books = BookQuery::create()
+            ->filterByTitle(['Lord of the Rings', "Harry Potter and the Philosopher's Stone"])
+            ->find();
+
+        self::assertCount(2, $books);
+    }
+
+    /**
+     * @return void
      * @throws PropelException
      */
     public function testLocales(): void

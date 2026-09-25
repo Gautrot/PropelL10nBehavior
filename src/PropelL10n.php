@@ -182,6 +182,7 @@ class PropelL10n
 
             $locale = $dependency;
             $locales[] = $locale;
+            $dependency = self::getDependency($locale);
         }
 
         // Adds the general ISO language (ex: keeps 'de' from 'de-DE')
@@ -223,8 +224,10 @@ class PropelL10n
     {
         $locale = PropelL10n::normalize($locale);
         $count = 0;
+        $locales = [];
 
-        while (isset(self::$dependencies[$locale])) {
+        while (isset(self::$dependencies[$locale]) && !isset($locales[$locale])) {
+            $locales[$locale] = true;
             $locale = self::$dependencies[$locale];
             $count++;
         }

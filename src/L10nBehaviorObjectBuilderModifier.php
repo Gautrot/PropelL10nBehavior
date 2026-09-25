@@ -212,7 +212,11 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $functionStatement = preg_replace('/^\t/m', '', $functionStatement);
         preg_match_all('/\$[a-z]+/i', $functionStatement, $params);
         // Adds $locale param in the getter params
-        $functionStatement = str_replace('()', '(?string $locale = null)', $functionStatement);
+        if (strpos($functionStatement, '()') !== false) {
+            $functionStatement = str_replace('()', '(?string $locale = null)', $functionStatement);
+        } else {
+            $functionStatement = str_replace(')', ', ?string $locale = null)', $functionStatement);
+        }
 
         return $this->renderTemplate('objectTranslatedColumnGetter', [
             'comment' => $comment,

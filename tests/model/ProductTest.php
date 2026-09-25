@@ -26,9 +26,11 @@ class ProductTest extends TestCase
 	<table name="product">
 		<column name="id" required="true" primaryKey="true" autoIncrement="true" type="integer" />
 		<column name="title" type="varchar" required="true" />
+		<column name="published_at" type="date" />
 		
 		<behavior name="l10n">
-			<parameter name="i18n_columns" value="title" />
+			<parameter name="i18n_columns" value="title,published_at" />
+			<parameter name="locale_alias" value="language" />
 		</behavior>
 	</table>
 </database>
@@ -129,6 +131,46 @@ XML;
         $p->setTitle('good', 'en');
 
         self::assertEquals('bene', $p->getTitle('it-IT'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testDate(): void
+    {
+        $p = new Product();
+        $p->setPublishedAt('2024-02-03', 'de');
+
+        self::assertSame('2024-02-03', $p->getPublishedAt('Y-m-d', 'de'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testLocaleAlias(): void
+    {
+        $p = new Product();
+        $p->setLanguage('de');
+
+        self::assertSame('de', $p->getLanguage());
+        self::assertSame('de', $p->getLocale());
+
+        $query = ProductQuery::create()->setLanguage('it');
+
+        self::assertSame('it', $query->getLanguage());
+    }
+
+    /**
+     * @return void
+     */
+    public function testRemoveTranslation(): void
+    {
+        $p = new Product();
+        $p->setTitle('lecker', 'de');
+        $p->save();
+        $p->removeTranslation('de');
+
+        self::assertNull($p->getTitle('de'));
     }
 
     /**
