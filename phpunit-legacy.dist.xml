@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- https://phpunit.readthedocs.io/en/10.5/configuration.html -->
+<!-- https://phpunit.readthedocs.io/en/9.6/configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
 		 colors="true"
-		 bootstrap="tests/bootstrap.php">
-
+		 bootstrap="vendor/autoload.php"
+>
 	<testsuites>
-		<testsuite name="PropelL10nBehavior Test Suite">
-			<directory>tests/</directory>
+		<testsuite name="PropelL10nBehavior Test Suite (Legacy - PHPUnit 9)">
+			<directory>./Tests</directory>
 		</testsuite>
 	</testsuites>
-
-	<coverage processUncoveredFiles="true">
+	<coverage cacheDirectory=".phpunit.cache">
 		<exclude>
 			<directory>src/templates/</directory>
 			<directory>tests/</directory>
