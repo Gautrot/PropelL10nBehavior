@@ -43,6 +43,7 @@ class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier
             $script .= $this->addFind($column);
             $script .= $this->addFindOne($column);
         }
+
         return $script;
     }
 
