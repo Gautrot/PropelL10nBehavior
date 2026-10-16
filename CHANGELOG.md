@@ -5,11 +5,26 @@
 <!-- TOC -->
 
 * [1.0.0](#100)
-  * [1.0.1](#101)
+    * [1.0.1](#101)
+    * [1.0.2](#102)
 
 <!-- TOC -->
 
 ---
+
+## 1.0.2
+
+### General
+
+- Added alias support to "locale" variables
+- Added the configuration attribute `use_locale_chain` for if it needs to use multiple locales or one
+    - Defaults to `false`, set in getters
+- Updated templates
+    - Now uses PHP markers
+
+### Fixes
+
+- Set the former locale before calling "add...I18n" in `getTranslation`
 
 ## 1.0.1
 
