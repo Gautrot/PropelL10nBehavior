@@ -10,6 +10,7 @@ protected function resolveLocale(?string $locale = null): string
     if ($locale === null) {
         $locale = $this->get<?= $localeColumnName; ?>();
     }
+
     if ($locale === null) {
         $locale = PropelL10n::getLocale();
     }

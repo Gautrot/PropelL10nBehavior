@@ -6,6 +6,7 @@ use Book;
 use BookI18nQuery;
 use BookQuery;
 use Gossi\Propel\Behavior\L10n\PropelL10n;
+use Map\BookTableMap;
 use PHPUnit\Framework\TestCase;
 use Propel\Generator\Util\QuickBuilder;
 use Propel\Runtime\Exception\PropelException;
@@ -54,12 +55,12 @@ XML;
      */
     public function testFilter(): void
     {
-        $q = BookQuery::create();
-        $q->filterByTitle('Lord of the Rings');
-        $b = $q->findOne();
+        $query = BookQuery::create();
+        $query->filterByTitle('Lord of the Rings');
+        $book = $query->findOne();
 
-        self::assertNotNull($b);
-        self::assertEquals('Herr der Ringe', $b->getTitle('de'));
+        self::assertNotNull($book);
+        self::assertEquals('Herr der Ringe', $book->getTitle('de'));
     }
 
     /**
@@ -68,8 +69,8 @@ XML;
      */
     public function testFind(): void
     {
-        $q = BookQuery::create();
-        $books = $q->findByTitle('Harry Potter%');
+        $query = BookQuery::create();
+        $books = $query->findByTitle('Harry Potter%');
 
         self::assertCount(2, $books);
     }
@@ -80,11 +81,11 @@ XML;
      */
     public function testFindOne(): void
     {
-        $q = BookQuery::create();
-        $b = $q->findOneByTitle('Harry Potter%');
+        $query = BookQuery::create();
+        $book = $query->findOneByTitle('Harry Potter%');
 
-        self::assertNotNull($b);
-        self::assertEquals('Harry Potter und der Stein der Weisen', $b->getTitle('de'));
+        self::assertNotNull($book);
+        self::assertEquals('Harry Potter und der Stein der Weisen', $book->getTitle('de'));
     }
 
     /**
@@ -105,19 +106,137 @@ XML;
      */
     public function testLocales(): void
     {
-        $q = BookQuery::create();
-        $q->setLocale('de');
-        $q->filterByTitle('Herr der Ringe');
-        $b = $q->findOne();
+        $query = BookQuery::create();
+        $query->setLocale('de');
+        $query->filterByTitle('Herr der Ringe');
+        $book = $query->findOne();
 
-        self::assertNotNull($b);
+        self::assertNotNull($book);
 
-        $q = BookQuery::create();
-        $q->setLocale('de');
-        $q->filterByTitle('Yubiwa Monogatari', null, 'ja-latn-JP');
-        $b = $q->findOne();
+        $query = BookQuery::create();
+        $query->setLocale('de');
+        $query->filterByTitle('Yubiwa Monogatari', null, 'ja-latn-JP');
+        $book = $query->findOne();
 
-        self::assertNotNull($b);
+        self::assertNotNull($book);
+    }
+
+    /**
+     * @return void
+     */
+    public function testFilterLocaleResolution(): void
+    {
+        $scenarios = [
+            'global locale' => [null, null, 'en', 'Lord of the Rings'],
+            'query locale' => ['de', null, 'de', 'Herr der Ringe'],
+            'explicit locale' => ['de', 'en', 'en', 'Lord of the Rings'],
+        ];
+
+        foreach ($scenarios as [$currentLocale, $explicitLocale, $expectedLocale, $expectedTitle]) {
+            $query = BookQuery::create();
+
+            if ($currentLocale !== null) {
+                $query->setLocale($currentLocale);
+            }
+
+            $book = $query
+                ->filterByTitle($expectedTitle, null, $explicitLocale)
+                ->findOne();
+
+            self::assertNotNull($book);
+            self::assertSame($expectedTitle, $book->getTitle($expectedLocale));
+            self::assertSame($currentLocale, $query->getLocale());
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function testJoinI18nLocaleResolution(): void
+    {
+        $scenarios = [
+            'global locale' => [null, null, 'en', 'Lord of the Rings'],
+            'query locale' => ['de', null, 'de', 'Herr der Ringe'],
+            'explicit locale' => ['de', 'en', 'en', 'Lord of the Rings'],
+        ];
+
+        foreach ($scenarios as [$currentLocale, $explicitLocale, $expectedLocale, $expectedTitle]) {
+            $query = BookQuery::create();
+
+            if ($currentLocale !== null) {
+                $query->setLocale($currentLocale);
+            }
+
+            $book = $query
+                ->joinI18n($explicitLocale)
+                ->where('BookI18n.Title = ?', $expectedTitle)
+                ->findOne();
+
+            self::assertNotNull($book);
+            self::assertSame($expectedTitle, $book->getTitle($expectedLocale));
+            self::assertSame($currentLocale, $query->getLocale());
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function testJoinWithI18nLocaleResolution(): void
+    {
+        $scenarios = [
+            'global locale' => [null, null, 'en'],
+            'query locale' => ['de', null, 'de'],
+            'explicit locale' => ['de', 'en', 'en'],
+        ];
+
+        foreach ($scenarios as [$currentLocale, $explicitLocale, $expectedLocale]) {
+            BookTableMap::clearInstancePool();
+            $query = BookQuery::create();
+
+            if ($currentLocale !== null) {
+                $query->setLocale($currentLocale);
+            }
+
+            $book = $query
+                ->joinWithI18n($explicitLocale)
+                ->orderById()
+                ->findOne();
+
+            self::assertNotNull($book);
+            self::assertCount(1, $book->getBookI18ns());
+            self::assertSame($expectedLocale, $book->getBookI18ns()->getFirst()->getLocale());
+            self::assertSame($currentLocale, $query->getLocale());
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function testUseI18nQueryLocaleResolution(): void
+    {
+        $scenarios = [
+            'global locale' => [null, null, 'en', 'Lord of the Rings'],
+            'query locale' => ['de', null, 'de', 'Herr der Ringe'],
+            'explicit locale' => ['de', 'en', 'en', 'Lord of the Rings'],
+        ];
+
+        foreach ($scenarios as [$currentLocale, $explicitLocale, $expectedLocale, $expectedTitle]) {
+            $query = BookQuery::create();
+
+            if ($currentLocale !== null) {
+                $query->setLocale($currentLocale);
+            }
+
+            $book = $query
+                ->useI18nQuery($explicitLocale)
+                ->filterByTitle($expectedTitle)
+                ->endUse()
+                ->findOne();
+
+            self::assertNotNull($book);
+            self::assertSame($expectedTitle, $book->getTitle($expectedLocale));
+            self::assertSame($currentLocale, $query->getLocale());
+        }
     }
 
     /**
@@ -133,23 +252,23 @@ XML;
         // fill in some dummy data
 
         // lord of the rings
-        $b = new Book();
-        $b->setTitle('Lord of the Rings');
-        $b->setTitle('Herr der Ringe', 'de');
-        $b->setTitle('Yubiwa Monogatari', 'ja-latn-JP');
-        $b->save();
+        $book = new Book();
+        $book->setTitle('Lord of the Rings');
+        $book->setTitle('Herr der Ringe', 'de');
+        $book->setTitle('Yubiwa Monogatari', 'ja-latn-JP');
+        $book->save();
 
         // harry potter
-        $b = new Book();
-        $b->setTitle("Harry Potter and the Philosopher's Stone");
-        $b->setTitle('Harry Potter und der Stein der Weisen', 'de');
-        $b->setTitle('Harī Pottā to kenja no ishi', 'ja-latn-JP');
-        $b->save();
+        $book = new Book();
+        $book->setTitle("Harry Potter and the Philosopher's Stone");
+        $book->setTitle('Harry Potter und der Stein der Weisen', 'de');
+        $book->setTitle('Harī Pottā to kenja no ishi', 'ja-latn-JP');
+        $book->save();
 
-        $b = new Book();
-        $b->setTitle('Harry Potter and the Prisoner of Azkaban');
-        $b->setTitle('Harry Potter und der Gefangene von Askaban', 'de');
-        $b->setTitle('Harī Pottā to Azukaban no shūjin', 'ja-latn-JP');
-        $b->save();
+        $book = new Book();
+        $book->setTitle('Harry Potter and the Prisoner of Azkaban');
+        $book->setTitle('Harry Potter und der Gefangene von Askaban', 'de');
+        $book->setTitle('Harī Pottā to Azukaban no shūjin', 'ja-latn-JP');
+        $book->save();
     }
 }

@@ -9,7 +9,9 @@
  */
 public function getCurrentTranslation(?string $locale = null, ?ConnectionInterface $con = null): <?= "$i18nTablePhpName\n"; ?>
 {
-    $locale = $this->resolveLocale($locale);
+    if ($locale === null) {
+        $locale = $this->resolveLocale($locale);
+    }
 
     return $this->getTranslation($locale, $con);
 }

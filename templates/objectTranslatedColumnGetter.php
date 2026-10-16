@@ -1,7 +1,10 @@
 <?= $comment; ?>
 <?= $functionStatement; ?>
 
-    $locale = $this->resolveLocale($locale);
+    if ($locale === null) {
+        $locale = $this->resolveLocale($locale);
+    }
+
     $translationsLocales = PropelL10n::getLocaleChain($locale);
 
     foreach ($translationsLocales as $translationLocale) {
@@ -14,3 +17,4 @@
 
     return null;
 }
+

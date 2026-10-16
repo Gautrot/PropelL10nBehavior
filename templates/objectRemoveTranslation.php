@@ -9,16 +9,20 @@
  */
 public function removeTranslation(?string $locale = null, ?ConnectionInterface $con = null)
 {
-    $locale = $this->resolveLocale($locale);
+    if ($locale === null) {
+        $locale = $this->resolveLocale($locale);
+    }
 
     if (!$this->isNew()) {
         <?= $i18nQueryName; ?>::create()
-            ->filterByPrimaryKey(array($this->getPrimaryKey(), $locale))
+            ->filterByPrimaryKey([$this->getPrimaryKey(), $locale])
             ->delete($con);
     }
+
     if (isset($this->currentTranslations[$locale])) {
         unset($this->currentTranslations[$locale]);
     }
+
     foreach ($this-><?= $i18nCollection; ?> as $key => $translation) {
         if ($translation->get<?= $localeColumnName; ?>() === $locale) {
             unset($this-><?= $i18nCollection; ?>[$key]);

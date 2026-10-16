@@ -10,7 +10,9 @@
  */
 public function joinWithI18n(?string $locale = null, ?string $joinType = Criteria::LEFT_JOIN)
 {
-    $locale = $this->resolveLocale($locale);
+    if ($locale === null) {
+        $locale = $this->resolveLocale($locale);
+    }
 
     $this->joinI18n($locale, null, $joinType)
         ->with('<?= $i18nRelationName; ?>');

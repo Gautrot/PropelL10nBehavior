@@ -9,7 +9,9 @@
  */
 public function getTranslation(?string $locale = null, ?ConnectionInterface $con = null): <?= "$i18nTablePhpName\n"; ?>
 {
-    $locale = $this->resolveLocale($locale);
+    if ($locale === null) {
+        $locale = $this->resolveLocale($locale);
+    }
 
     if (!isset($this->currentTranslations[$locale])) {
         if ($this-><?= $i18nListVariable; ?> !== null) {
@@ -21,16 +23,20 @@ public function getTranslation(?string $locale = null, ?ConnectionInterface $con
                 }
             }
         }
+
         if ($this->isNew()) {
             $translation = new <?= $i18nTablePhpName; ?>();
             $translation->set<?= $localeColumnName; ?>($locale);
         } else {
             $translation = <?= $i18nQueryName; ?>::create()
-                ->filterByPrimaryKey(array($this->getPrimaryKey(), $locale))
+                ->filterByPrimaryKey([$this->getPrimaryKey(), $locale])
                 ->findOneOrCreate($con);
             $this->currentTranslations[$locale] = $translation;
         }
+
+        $formerLocale = $this->currentLocale;
         $this->add<?= $i18nSetterMethod; ?>($translation);
+        $this->currentLocale = $formerLocale;
     }
 
     return $this->currentTranslations[$locale];

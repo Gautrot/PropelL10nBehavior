@@ -9,17 +9,19 @@
      WHERE <?= $columnName; ?> LIKE '%fooValue%'
  * </code>
  *
- * @param     string|string[] $<?= $columnName; ?> The value to use as filter.
- *              Accepts wildcards (* and % trigger a LIKE)
- * @param     string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
- * @param     string|null $locale Overwrites the locale for this filter
+ * @param string|string[] $<?= $columnName; ?> The value to use as filter.
+ *          Accepts wildcards (* and % trigger a LIKE)
+ * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+ * @param string|null $locale Overwrites the locale for this filter
  *
- * @return    <?= $queryClass; ?> The current query, for fluid interface
+ * @return <?= $queryClass; ?> The current query, for fluid interface
  * @throws PropelException
  */
 public function filterBy<?= $columnPhpName; ?>($<?= $columnName; ?>, ?string $comparison = null, ?string $locale = null): <?= "$queryClass\n"; ?>
 {
-    $locale = $this->resolveLocale($locale);
+    if ($locale === null) {
+        $locale = $this->resolveLocale($locale);
+    }
 
     if ($comparison === null) {
         if (is_array($<?= $columnName; ?>)) {
@@ -34,3 +36,4 @@ public function filterBy<?= $columnPhpName; ?>($<?= $columnName; ?>, ?string $co
         ->filterBy<?= $columnPhpName; ?>($<?= $columnName; ?> , $comparison)
         ->endUse();
 }
+
