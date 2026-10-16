@@ -14,6 +14,7 @@ trait RenderTrait
      */
     protected function renderTemplate($name, array $vars = []): string
     {
+        $vars['localeVariableName'] = $this->behavior->getLocaleVariableName();
         $this->behavior->backupTemplatesDirname();
         $template = $this->behavior->renderTemplate($name, $vars);
         $this->behavior->restoreTemplatesDirname();

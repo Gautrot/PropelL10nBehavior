@@ -3,6 +3,7 @@
 namespace model;
 
 use Gossi\Propel\Behavior\L10n\PropelL10n;
+use Map\ProductTableMap;
 use PHPUnit\Framework\TestCase;
 use Product;
 use ProductI18nQuery;
@@ -31,6 +32,7 @@ class ProductTest extends TestCase
 		<behavior name="l10n">
 			<parameter name="i18n_columns" value="title,published_at" />
 			<parameter name="locale_alias" value="language" />
+			<parameter name="use_locale_chain" value="true" />
 		</behavior>
 	</table>
 </database>
@@ -62,6 +64,80 @@ XML;
         $p->setTitle('delicious');
         self::assertEquals('delicious', $p->getTitle());
         self::assertEquals('en', $p->getCurrentTranslation()->getLocale());
+        self::assertNull($p->getLocale());
+    }
+
+    public function testTranslationAccessPreservesCurrentLocale(): void
+    {
+        foreach ([null, 'de'] as $locale) {
+            $p = new Product();
+            if ($locale !== null) {
+                $p->setLocale($locale);
+            }
+
+            $translation = $p->getTranslation('it');
+
+            self::assertSame('it', $translation->getLocale());
+            self::assertSame($locale, $p->getLocale());
+            self::assertSame($translation, $p->getTranslation('it'));
+            self::assertSame($translation, $p->getCurrentTranslation('it'));
+            self::assertSame($locale, $p->getLocale());
+        }
+    }
+
+    public function testPersistedTranslationAccessPreservesCurrentLocale(): void
+    {
+        $p = new Product();
+        $p->setTitle('delicious', 'en');
+        $p->setTitle('bene', 'it');
+        $p->save();
+        $id = $p->getPrimaryKey();
+
+        foreach ([null, 'de'] as $locale) {
+            ProductTableMap::clearInstancePool();
+            $p = ProductQuery::create()->findPk($id);
+            self::assertNotNull($p);
+            if ($locale !== null) {
+                $p->setLocale($locale);
+            }
+
+            self::assertSame('bene', $p->getTranslation('it')->getTitle());
+            self::assertSame($locale, $p->getLocale());
+            self::assertSame('fr', $p->getTranslation('fr')->getLocale());
+            self::assertSame($locale, $p->getLocale());
+        }
+    }
+
+    public function testTranslationWithoutLocaleUsesCurrentOrGlobalLocale(): void
+    {
+        $p = new Product();
+
+        self::assertSame('en', $p->getTranslation()->getLocale());
+        self::assertSame('en', $p->getCurrentTranslation()->getLocale());
+        self::assertNull($p->getLocale());
+
+        $p->setLocale('de');
+
+        self::assertSame('de', $p->getTranslation()->getLocale());
+        self::assertSame('de', $p->getCurrentTranslation()->getLocale());
+        self::assertSame('de', $p->getLocale());
+    }
+
+    public function testFallbackAccessPreservesCurrentLocale(): void
+    {
+        $p = new Product();
+        $p->setTitle('delicious', 'en');
+        $p->setLocale('it');
+
+        self::assertSame('delicious', $p->getTitle());
+        self::assertSame('it', $p->getLocale());
+        self::assertSame('delicious', $p->getTitle('fr'));
+        self::assertSame('it', $p->getLocale());
+
+        $p->setTitle('bene');
+
+        self::assertSame('bene', $p->getTranslation('it')->getTitle());
+        self::assertSame('delicious', $p->getTranslation('en')->getTitle());
     }
 
     /**
@@ -107,6 +183,59 @@ XML;
 
     /**
      * @return void
+     */
+    public function testGetterWithoutLocaleChain(): void
+    {
+        $p = new Product();
+        $p->setTitle('delicious', 'en');
+        $p->setTitle('lecker', 'de-DE');
+
+        self::assertSame('lecker', $p->getTitle('de-DE', false));
+        self::assertSame('lecker', $p->getTitle('de-CH', true));
+        self::assertNull($p->getTitle('de-CH', false));
+        self::assertSame('lecker', $p->getTitle('de-DE-1996'));
+        self::assertNull($p->getTitle('de-DE-1996', false));
+        self::assertSame('delicious', $p->getTitle('it'));
+        self::assertNull($p->getTitle('it', false));
+        self::assertNull($p->getLocale());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetterWithoutLocaleChainResolvesCurrentOrGlobalLocale(): void
+    {
+        $p = new Product();
+        $p->setTitle('delicious', 'en');
+
+        self::assertSame('delicious', $p->getTitle(null, false));
+
+        $p->setLocale('it');
+
+        self::assertSame('delicious', $p->getTitle());
+        self::assertNull($p->getTitle(null, false));
+        self::assertSame('it', $p->getLocale());
+
+        $p->setTitle('bene');
+
+        self::assertSame('bene', $p->getTitle(null, false));
+    }
+
+    /**
+     * @return void
+     */
+    public function testDateGetterWithoutLocaleChain(): void
+    {
+        $p = new Product();
+        $p->setPublishedAt('2024-02-03', 'en');
+
+        self::assertSame('2024-02-03', $p->getPublishedAt('Y-m-d', 'en', false));
+        self::assertSame('2024-02-03', $p->getPublishedAt('Y-m-d', 'it'));
+        self::assertNull($p->getPublishedAt('Y-m-d', 'it', false));
+    }
+
+    /**
+     * @return void
      * @throws PropelException
      */
     public function testSetterLocale(): void
@@ -115,8 +244,10 @@ XML;
         $p->setTitle('delicious', 'en');
         $p->setTitle('bene', 'it');
 
+        self::assertNull($p->getLocale());
         self::assertEquals('delicious', $p->getTitle('en-US'));
         self::assertEquals('bene', $p->getTitle('it-IT'));
+        self::assertNull($p->getLocale());
     }
 
     /**
@@ -171,6 +302,39 @@ XML;
         $p->removeTranslation('de');
 
         self::assertNull($p->getTitle('de'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testRemoveTranslationCurrentOrGlobalLocale(): void
+    {
+        foreach ([null, 'de'] as $locale) {
+            $p = new Product();
+            $p->setTitle('delicious', 'en');
+            $p->setTitle('lecker', 'de');
+            $p->save();
+            $id = $p->getPrimaryKey();
+            ProductTableMap::clearInstancePool();
+            $p = ProductQuery::create()->findPk($id);
+            self::assertNotNull($p);
+            if ($locale !== null) {
+                $p->setLocale($locale);
+            }
+
+            $removedLocale = $locale ?? 'en';
+            $translation = $p->getTranslation($removedLocale);
+            $p->removeTranslation();
+
+            self::assertSame($locale, $p->getLocale());
+            self::assertNull(ProductI18nQuery::create()->findPk([$p->getPrimaryKey(), $removedLocale]));
+            self::assertNotSame($translation, $p->getTranslation($removedLocale));
+            self::assertNull($p->getTranslation($removedLocale)->getTitle());
+            self::assertSame(
+                ($removedLocale === 'en') ? 'lecker' : 'delicious',
+                $p->getTranslation(($removedLocale === 'en') ? 'de' : 'en')->getTitle()
+            );
+        }
     }
 
     /**

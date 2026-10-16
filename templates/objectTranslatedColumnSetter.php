@@ -1,8 +1,11 @@
-<?= $comment; ?>
-<?= $functionStatement; ?>
+<?php
 
-    $this->getCurrentTranslation($locale)->set<?= $columnPhpName; ?>(<?= $params; ?>);
+echo <<<PHP
+$comment$functionStatement
+    \$this->getCurrentTranslation(\$$localeVariableName)->set$columnPhpName($params);
 
-    return $this;
+    return \$this;
 }
 
+
+PHP;

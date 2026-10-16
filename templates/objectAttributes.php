@@ -1,12 +1,17 @@
+<?php
+
+echo <<<PHP
 /**
  * Current locale
- * @var        string|null
+ * @var string|null
  */
-protected ?string $currentLocale = null;
+protected ?string \$currentLocale = null;
 
 /**
  * Current translation objects
- * @var        array[<?= $objectClassName; ?>]
+ * @var array[$objectClassName]
  */
-protected array $currentTranslations = [];
+protected array \$currentTranslations = [];
 
+
+PHP;

@@ -23,6 +23,7 @@ class L10nBehavior extends I18nBehavior
         'locale_column' => 'locale',
         'locale_length' => 5,
         'locale_alias' => '',
+        'use_locale_chain' => 'false',
     ];
 
     /**
@@ -58,6 +59,16 @@ class L10nBehavior extends I18nBehavior
     public function getDefaultLocale(): string
     {
         return PropelL10n::getLocale();
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocaleVariableName(): string
+    {
+        $alias = $this->getParameter('locale_alias');
+
+        return lcfirst($alias ?: $this->getLocaleColumn()->getPhpName());
     }
 
     /**

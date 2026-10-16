@@ -1,15 +1,23 @@
+<?php
+
+echo <<<PHP
 /**
  * Returns the current translation
  *
- * @param string|null $locale Locale to use for the join condition, e.g. 'fr_FR'
- * @param ConnectionInterface|null $con an optional connection object
+ * @param string|null \$$localeVariableName Locale to use for the join condition, e.g. 'fr_FR'
+ * @param ConnectionInterface|null \$con an optional connection object
  *
- * @return <?= "$i18nTablePhpName\n"; ?>
+ * @return $i18nTablePhpName
  * @throws PropelException
  */
-public function getCurrentTranslation(?string $locale = null, ?ConnectionInterface $con = null): <?= "$i18nTablePhpName\n"; ?>
+public function getCurrentTranslation(?string \$$localeVariableName = null, ?ConnectionInterface \$con = null): $i18nTablePhpName
 {
-    $locale = $this->resolveLocale($locale);
+    if (\$$localeVariableName === null) {
+        \$$localeVariableName = \$this->resolveLocale(\$$localeVariableName);
+    }
 
-    return $this->getTranslation($locale, $con);
+    return \$this->getTranslation(\$$localeVariableName, \$con);
 }
+
+
+PHP;

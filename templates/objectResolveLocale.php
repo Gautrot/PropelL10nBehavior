@@ -1,19 +1,25 @@
+<?php
+
+echo <<<PHP
 /**
  * Resolves the locale to use for translations.
  *
- * @param string|null $locale Locale to use for the join condition, e.g. 'fr_FR'
+ * @param string|null \$$localeVariableName Locale to use for the join condition, e.g. 'fr_FR'
  *
  * @return string
  */
-protected function resolveLocale(?string $locale = null): string
+protected function resolveLocale(?string \$$localeVariableName = null): string
 {
-    if ($locale === null) {
-        $locale = $this->get<?= $localeColumnName; ?>();
-    }
-    if ($locale === null) {
-        $locale = PropelL10n::getLocale();
+    if (\$$localeVariableName === null) {
+        \$$localeVariableName = \$this->get$localeColumnName();
     }
 
-    return $locale;
+    if (\$$localeVariableName === null) {
+        \$$localeVariableName = PropelL10n::getLocale();
+    }
+
+    return \$$localeVariableName;
 }
 
+
+PHP;
