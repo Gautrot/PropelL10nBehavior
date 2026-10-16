@@ -154,6 +154,24 @@ behavior.
 The parameters are equal to the [i18n parameters](https://propelorm.org/documentation/behaviors/i18n.html#parameters),
 except `default_locale` doesn't exist.
 
+The `use_locale_chain` parameter sets the default for all translated getters on the model. Set it to `true` to enable
+locale dependencies and fallback by default:
+
+```xml
+
+<behavior name="l10n">
+   <parameter name="i18n_columns" value="title"/>
+   <parameter name="use_locale_chain" value="true"/>
+</behavior>
+```
+
+Each getter call can override this default:
+
+```php
+$book->getTitle('de', true);  // use the locale chain
+$book->getTitle('de', false); // use only the German translation
+```
+
 ### Using the API
 
 There are three things you need to do once for your app, and you are ready to go and use Propel as if there were not any
@@ -201,9 +219,9 @@ You can use your well known methods to query the database:
 ```php
 // default locale: de
 
-// contains all books with a german title starting with 'Harry Potter'
+// contains all books with a german title starting with 'Die Tribute von Panem'
 $books = BookQuery::create()
-    ->filterByTitle('Harry Potter%')
+    ->filterByTitle('Die Tribute von Panem%')
     ->find();
 $books = ...; 
 
@@ -212,10 +230,10 @@ $book = BookQuery::create()
     ->findOneByTitle('Lord of the Rings', null, 'en');
 $book = ...; 
 
-// all harry potter books searched with the japanese title
+// all Hunger Games books searched with the japanese title
 $books = BookQuery::create()
     ->setLocale('ja')               // overwrites query default locale
-    ->findByTitle('Harī Pottā%');
+    ->findByTitle('Hangā Gēmu%');
 $books = ...;
 
 // find lord of the rings with the japanese title, overwrite locale with the filter method

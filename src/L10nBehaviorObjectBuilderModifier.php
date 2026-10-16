@@ -211,6 +211,11 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $localeParameter = '?string $' . $localeVariableName . ' = null';
         $comment = str_replace('*/', '* @param string|null $' . $localeVariableName . "\n\t */", $comment);
 
+        // Adds "$useLocaleChain" if we want to use a list of locales or just one
+        $useLocaleChain = ($this->behavior->getParameter('use_locale_chain') === 'true') ? 'true' : 'false';
+        $localeParameter .= ', bool $useLocaleChain = ' . $useLocaleChain;
+        $comment = str_replace('*/', "* @param bool \$useLocaleChain Whether to use the locale chain\n\t */", $comment);
+
         // Adds the locale parameter to the getter parameters
         if (strpos($functionStatement, '()') !== false) {
             $functionStatement = str_replace('()', '(' . $localeParameter . ')', $functionStatement);

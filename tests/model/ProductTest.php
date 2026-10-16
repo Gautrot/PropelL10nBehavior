@@ -32,6 +32,7 @@ class ProductTest extends TestCase
 		<behavior name="l10n">
 			<parameter name="i18n_columns" value="title,published_at" />
 			<parameter name="locale_alias" value="language" />
+			<parameter name="use_locale_chain" value="true" />
 		</behavior>
 	</table>
 </database>
@@ -178,6 +179,59 @@ XML;
         $p->setTitle('lecker');
 
         self::assertEquals('delicious', $p->getTitle('it'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetterWithoutLocaleChain(): void
+    {
+        $p = new Product();
+        $p->setTitle('delicious', 'en');
+        $p->setTitle('lecker', 'de-DE');
+
+        self::assertSame('lecker', $p->getTitle('de-DE', false));
+        self::assertSame('lecker', $p->getTitle('de-CH', true));
+        self::assertNull($p->getTitle('de-CH', false));
+        self::assertSame('lecker', $p->getTitle('de-DE-1996'));
+        self::assertNull($p->getTitle('de-DE-1996', false));
+        self::assertSame('delicious', $p->getTitle('it'));
+        self::assertNull($p->getTitle('it', false));
+        self::assertNull($p->getLocale());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetterWithoutLocaleChainResolvesCurrentOrGlobalLocale(): void
+    {
+        $p = new Product();
+        $p->setTitle('delicious', 'en');
+
+        self::assertSame('delicious', $p->getTitle(null, false));
+
+        $p->setLocale('it');
+
+        self::assertSame('delicious', $p->getTitle());
+        self::assertNull($p->getTitle(null, false));
+        self::assertSame('it', $p->getLocale());
+
+        $p->setTitle('bene');
+
+        self::assertSame('bene', $p->getTitle(null, false));
+    }
+
+    /**
+     * @return void
+     */
+    public function testDateGetterWithoutLocaleChain(): void
+    {
+        $p = new Product();
+        $p->setPublishedAt('2024-02-03', 'en');
+
+        self::assertSame('2024-02-03', $p->getPublishedAt('Y-m-d', 'en', false));
+        self::assertSame('2024-02-03', $p->getPublishedAt('Y-m-d', 'it'));
+        self::assertNull($p->getPublishedAt('Y-m-d', 'it', false));
     }
 
     /**

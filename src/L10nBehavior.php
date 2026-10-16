@@ -23,6 +23,7 @@ class L10nBehavior extends I18nBehavior
         'locale_column' => 'locale',
         'locale_length' => 5,
         'locale_alias' => '',
+        'use_locale_chain' => 'false',
     ];
 
     /**

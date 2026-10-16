@@ -5,6 +5,10 @@
         $<?= $localeVariableName; ?> = $this->resolveLocale($<?= $localeVariableName; ?>);
     }
 
+    if (!$useLocaleChain) {
+        return $this->getCurrentTranslation($<?= $localeVariableName; ?>)->get<?= $columnPhpName; ?>(<?= $params; ?>);
+    }
+
     $translationsLocales = PropelL10n::getLocaleChain($<?= $localeVariableName; ?>);
 
     foreach ($translationsLocales as $translationLocale) {

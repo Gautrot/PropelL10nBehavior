@@ -37,6 +37,7 @@ class LocaleParameterTest extends TestCase
         <behavior name="l10n">
             <parameter name="i18n_columns" value="title,published_at" />
             <parameter name="locale_alias" value="Culture" />
+            <parameter name="use_locale_chain" value="false" />
         </behavior>
     </table>
     <table name="culture_column_article">
@@ -46,6 +47,7 @@ class LocaleParameterTest extends TestCase
         <behavior name="l10n">
             <parameter name="i18n_columns" value="title,published_at" />
             <parameter name="locale_column" value="culture" />
+            <parameter name="use_locale_chain" value="true" />
         </behavior>
     </table>
 </database>
@@ -86,6 +88,35 @@ XML;
         }
 
         $this->assertLocaleParameter('CultureAliasArticle', 'setCulture', 0, 'culture');
+    }
+
+    /**
+     * @return void
+     */
+    public function testLocaleChainDefault(): void
+    {
+        PropelL10n::setFallback('en');
+        $models = [
+            'DefaultLocaleArticle' => false,
+            'CultureAliasArticle' => false,
+            'CultureColumnArticle' => true,
+        ];
+
+        foreach ($models as $className => $useLocaleChain) {
+            $article = new $className();
+            $article->setTitle('Hello', 'en');
+            $article->setPublishedAt('2024-02-03', 'en');
+
+            self::assertSame($useLocaleChain ? 'Hello' : null, $article->getTitle('it'));
+            self::assertSame('Hello', $article->getTitle('it', true));
+            self::assertNull($article->getTitle('it', false));
+            self::assertSame(
+                $useLocaleChain ? '2024-02-03' : null,
+                $article->getPublishedAt('Y-m-d', 'it')
+            );
+            self::assertSame('2024-02-03', $article->getPublishedAt('Y-m-d', 'it', true));
+            self::assertNull($article->getPublishedAt('Y-m-d', 'it', false));
+        }
     }
 
     /**

@@ -70,7 +70,7 @@ XML;
     public function testFind(): void
     {
         $query = BookQuery::create();
-        $books = $query->findByTitle('Harry Potter%');
+        $books = $query->findByTitle('The Hunger Games%');
 
         self::assertCount(2, $books);
     }
@@ -82,10 +82,10 @@ XML;
     public function testFindOne(): void
     {
         $query = BookQuery::create();
-        $book = $query->findOneByTitle('Harry Potter%');
+        $book = $query->findOneByTitle('The Hunger Games%');
 
         self::assertNotNull($book);
-        self::assertEquals('Harry Potter und der Stein der Weisen', $book->getTitle('de'));
+        self::assertEquals('Die Tribute von Panem: Tödliche Spiele', $book->getTitle('de'));
     }
 
     /**
@@ -94,7 +94,7 @@ XML;
     public function testFilterList(): void
     {
         $books = BookQuery::create()
-            ->filterByTitle(['Lord of the Rings', "Harry Potter and the Philosopher's Stone"])
+            ->filterByTitle(['Lord of the Rings', 'The Hunger Games'])
             ->find();
 
         self::assertCount(2, $books);
@@ -258,17 +258,17 @@ XML;
         $book->setTitle('Yubiwa Monogatari', 'ja-latn-JP');
         $book->save();
 
-        // harry potter
+        // hunger games
         $book = new Book();
-        $book->setTitle("Harry Potter and the Philosopher's Stone");
-        $book->setTitle('Harry Potter und der Stein der Weisen', 'de');
-        $book->setTitle('Harī Pottā to kenja no ishi', 'ja-latn-JP');
+        $book->setTitle('The Hunger Games');
+        $book->setTitle('Die Tribute von Panem: Tödliche Spiele', 'de');
+        $book->setTitle('Hangā Gēmu', 'ja-latn-JP');
         $book->save();
 
         $book = new Book();
-        $book->setTitle('Harry Potter and the Prisoner of Azkaban');
-        $book->setTitle('Harry Potter und der Gefangene von Askaban', 'de');
-        $book->setTitle('Harī Pottā to Azukaban no shūjin', 'ja-latn-JP');
+        $book->setTitle('The Hunger Games: Catching Fire');
+        $book->setTitle('Die Tribute von Panem: Gefährliche Liebe', 'de');
+        $book->setTitle('Hangā Gēmu 2', 'ja-latn-JP');
         $book->save();
     }
 }
