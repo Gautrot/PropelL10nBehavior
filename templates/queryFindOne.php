@@ -12,14 +12,14 @@
  * @param string $<?= $columnName; ?> The value to use as filter.
  *          Accepts wildcards (* and % trigger a LIKE)
  * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
- * @param string|null $locale Overwrites the locale for this filter
+ * @param string|null $<?= $localeVariableName; ?> Overwrites the locale for this filter
  *
  * @return <?= $objectClassName; ?>|null The result
  * @throws PropelException
  */
-public function findOneBy<?= $columnPhpName; ?>(string $<?= $columnName; ?> , ?string $comparison = null, ?string $locale = null): ?<?= "$objectClassName\n"; ?>
+public function findOneBy<?= $columnPhpName; ?>(string $<?= $columnName; ?> , ?string $comparison = null, ?string $<?= $localeVariableName; ?> = null): ?<?= "$objectClassName\n"; ?>
 {
-    return $this->filterBy<?= $columnPhpName; ?>($<?= $columnName; ?> , $comparison, $locale)
+    return $this->filterBy<?= $columnPhpName; ?>($<?= $columnName; ?> , $comparison, $<?= $localeVariableName; ?>)
         ->findOne();
 }
 

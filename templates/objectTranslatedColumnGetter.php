@@ -1,11 +1,11 @@
 <?= $comment; ?>
 <?= $functionStatement; ?>
 
-    if ($locale === null) {
-        $locale = $this->resolveLocale($locale);
+    if ($<?= $localeVariableName; ?> === null) {
+        $<?= $localeVariableName; ?> = $this->resolveLocale($<?= $localeVariableName; ?>);
     }
 
-    $translationsLocales = PropelL10n::getLocaleChain($locale);
+    $translationsLocales = PropelL10n::getLocaleChain($<?= $localeVariableName; ?>);
 
     foreach ($translationsLocales as $translationLocale) {
         $value = $this->getCurrentTranslation($translationLocale)->get<?= $columnPhpName; ?>(<?= $params; ?>);

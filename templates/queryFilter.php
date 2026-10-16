@@ -12,15 +12,15 @@
  * @param string|string[] $<?= $columnName; ?> The value to use as filter.
  *          Accepts wildcards (* and % trigger a LIKE)
  * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
- * @param string|null $locale Overwrites the locale for this filter
+ * @param string|null $<?= $localeVariableName; ?> Overwrites the locale for this filter
  *
  * @return <?= $queryClass; ?> The current query, for fluid interface
  * @throws PropelException
  */
-public function filterBy<?= $columnPhpName; ?>($<?= $columnName; ?>, ?string $comparison = null, ?string $locale = null): <?= "$queryClass\n"; ?>
+public function filterBy<?= $columnPhpName; ?>($<?= $columnName; ?>, ?string $comparison = null, ?string $<?= $localeVariableName; ?> = null): <?= "$queryClass\n"; ?>
 {
-    if ($locale === null) {
-        $locale = $this->resolveLocale($locale);
+    if ($<?= $localeVariableName; ?> === null) {
+        $<?= $localeVariableName; ?> = $this->resolveLocale($<?= $localeVariableName; ?>);
     }
 
     if ($comparison === null) {
@@ -32,7 +32,7 @@ public function filterBy<?= $columnPhpName; ?>($<?= $columnName; ?>, ?string $co
         }
     }
 
-    return $this->useI18nQuery($locale)
+    return $this->useI18nQuery($<?= $localeVariableName; ?>)
         ->filterBy<?= $columnPhpName; ?>($<?= $columnName; ?> , $comparison)
         ->endUse();
 }

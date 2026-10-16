@@ -1,30 +1,30 @@
 /**
  * Remove the translation for a given locale
  *
- * @param string|null $locale Locale to use for the translation, e.g. 'fr_FR'
+ * @param string|null $<?= $localeVariableName; ?> Locale to use for the translation, e.g. 'fr_FR'
  * @param ConnectionInterface|null $con an optional connection object
  *
  * @return $this|<?= $objectClassName; ?> The current object (for fluent API support)
  * @throws PropelException
  */
-public function removeTranslation(?string $locale = null, ?ConnectionInterface $con = null)
+public function removeTranslation(?string $<?= $localeVariableName; ?> = null, ?ConnectionInterface $con = null)
 {
-    if ($locale === null) {
-        $locale = $this->resolveLocale($locale);
+    if ($<?= $localeVariableName; ?> === null) {
+        $<?= $localeVariableName; ?> = $this->resolveLocale($<?= $localeVariableName; ?>);
     }
 
     if (!$this->isNew()) {
         <?= $i18nQueryName; ?>::create()
-            ->filterByPrimaryKey([$this->getPrimaryKey(), $locale])
+            ->filterByPrimaryKey([$this->getPrimaryKey(), $<?= $localeVariableName; ?>])
             ->delete($con);
     }
 
-    if (isset($this->currentTranslations[$locale])) {
-        unset($this->currentTranslations[$locale]);
+    if (isset($this->currentTranslations[$<?= $localeVariableName; ?>])) {
+        unset($this->currentTranslations[$<?= $localeVariableName; ?>]);
     }
 
     foreach ($this-><?= $i18nCollection; ?> as $key => $translation) {
-        if ($translation->get<?= $localeColumnName; ?>() === $locale) {
+        if ($translation->get<?= $localeColumnName; ?>() === $<?= $localeVariableName; ?>) {
             unset($this-><?= $i18nCollection; ?>[$key]);
             break;
         }

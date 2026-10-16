@@ -61,6 +61,16 @@ class L10nBehavior extends I18nBehavior
     }
 
     /**
+     * @return string
+     */
+    public function getLocaleVariableName(): string
+    {
+        $alias = $this->getParameter('locale_alias');
+
+        return lcfirst($alias ?: $this->getLocaleColumn()->getPhpName());
+    }
+
+    /**
      * @return L10nBehaviorObjectBuilderModifier|null
      */
     public function getObjectBuilderModifier(): ?L10nBehaviorObjectBuilderModifier
