@@ -92,6 +92,7 @@ XML;
 
     /**
      * @return void
+     * @throws ReflectionException
      */
     public function testLocaleChainDefault(): void
     {
@@ -103,6 +104,12 @@ XML;
         ];
 
         foreach ($models as $className => $useLocaleChain) {
+            $titleGetter = new ReflectionMethod($className, 'getTitle');
+            $dateGetter = new ReflectionMethod($className, 'getPublishedAt');
+
+            self::assertSame($useLocaleChain, $titleGetter->getParameters()[1]->getDefaultValue());
+            self::assertSame($useLocaleChain, $dateGetter->getParameters()[2]->getDefaultValue());
+
             $article = new $className();
             $article->setTitle('Hello', 'en');
             $article->setPublishedAt('2024-02-03', 'en');

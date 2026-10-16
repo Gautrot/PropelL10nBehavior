@@ -132,7 +132,6 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     protected function addGetTranslation(): string
     {
-        $plural = false;
         $i18nTable = $this->behavior->getI18nTable();
         $fk = $this->behavior->getI18nForeignKey();
 
@@ -145,7 +144,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
             'i18nQueryName' => $this->builder->getClassNameFromBuilder(
                 $this->builder->getNewStubQueryBuilder($i18nTable)
             ),
-            'i18nSetterMethod' => $this->builder->getRefFKPhpNameAffix($fk, $plural),
+            'i18nSetterMethod' => $this->builder->getRefFKPhpNameAffix($fk),
         ]);
     }
 
@@ -189,6 +188,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $objectBuilder = $this->builder->getNewObjectBuilder($this->behavior->getI18nTable());
         $comment = '';
         $functionStatement = '';
+
         if ($this->isDateType($column->getType())) {
             $objectBuilder->addTemporalAccessorComment($comment, $column);
             $objectBuilder->addTemporalAccessorOpen($functionStatement, $column);
@@ -196,31 +196,29 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
             $objectBuilder->addDefaultAccessorComment($comment, $column);
             $objectBuilder->addDefaultAccessorOpen($functionStatement, $column);
         }
+
         $comment = preg_replace('/^\t/m', '', $comment);
+
         // Adds @throws tag to generated method
-        $comment = str_replace(
-            '*/',
-            "* @throws PropelException\n\t */",
-            $comment
-        );
+        $comment = str_replace('*/', "* @throws PropelException\n\t */", $comment);
         $functionStatement = preg_replace('/^\t/m', '', $functionStatement);
         preg_match_all('/\$[a-z]+/i', $functionStatement, $params);
 
         // Uses the locale's alias name for the var if it is different from "locale"
         $localeVariableName = $this->behavior->getLocaleVariableName();
-        $localeParameter = '?string $' . $localeVariableName . ' = null';
-        $comment = str_replace('*/', '* @param string|null $' . $localeVariableName . "\n\t */", $comment);
+        $localeParameter = "?string \$$localeVariableName = null";
+        $comment = str_replace('*/', "* @param string|null \$$localeVariableName\n\t */", $comment);
 
         // Adds "$useLocaleChain" if we want to use a list of locales or just one
         $useLocaleChain = ($this->behavior->getParameter('use_locale_chain') === 'true') ? 'true' : 'false';
-        $localeParameter .= ', bool $useLocaleChain = ' . $useLocaleChain;
+        $localeParameter .= ", bool \$useLocaleChain = $useLocaleChain";
         $comment = str_replace('*/', "* @param bool \$useLocaleChain Whether to use the locale chain\n\t */", $comment);
 
         // Adds the locale parameter to the getter parameters
         if (strpos($functionStatement, '()') !== false) {
-            $functionStatement = str_replace('()', '(' . $localeParameter . ')', $functionStatement);
+            $functionStatement = str_replace('()', "($localeParameter)", $functionStatement);
         } else {
-            $functionStatement = str_replace(')', ', ' . $localeParameter . ')', $functionStatement);
+            $functionStatement = str_replace(')', ", $localeParameter)", $functionStatement);
         }
 
         return $this->renderTemplate('objectTranslatedColumnGetter', [
@@ -241,29 +239,28 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $objectBuilder = $this->builder->getNewObjectBuilder($this->behavior->getI18nTable());
         $comment = '';
         $functionStatement = '';
+
         if ($this->isDateType($column->getType())) {
             $objectBuilder->addTemporalMutatorComment($comment, $column);
         } else {
             $objectBuilder->addMutatorComment($comment, $column);
         }
+
         $objectBuilder->addMutatorOpenOpen($functionStatement, $column);
         $comment = preg_replace('/^\t/m', '', $comment);
+
         // Adds @throws tag to generated method
-        $comment = str_replace(
-            '*/',
-            "* @throws PropelException\n\t */",
-            $comment
-        );
+        $comment = str_replace('*/', "* @throws PropelException\n\t */", $comment);
         $functionStatement = preg_replace('/^\t/m', '', $functionStatement);
         preg_match_all('/\$[a-z]+/i', $functionStatement, $params);
 
         // Uses the locale's alias name for the var if it is different from "locale"
         $localeVariableName = $this->behavior->getLocaleVariableName();
-        $localeParameter = '?string $' . $localeVariableName . ' = null';
-        $comment = str_replace('*/', '* @param string|null $' . $localeVariableName . "\n\t */", $comment);
+        $localeParameter = "?string \$$localeVariableName = null";
+        $comment = str_replace('*/', "* @param string|null \$$localeVariableName\n\t */", $comment);
 
         // Adds the locale parameter to the setter parameters
-        $functionStatement = str_replace(')', ', ' . $localeParameter . ')', $functionStatement);
+        $functionStatement = str_replace(')', ", $localeParameter)", $functionStatement);
 
         return $this->renderTemplate('objectTranslatedColumnSetter', [
             'comment' => $comment,
@@ -283,13 +280,13 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
     {
         $i18nTable = $this->behavior->getI18nTable();
         $i18nTablePhpName = $builder->getNewStubObjectBuilder($i18nTable)->getUnprefixedClassName();
-        $pattern = '/public function add' . $i18nTablePhpName . '.*[\r\n]\s*\{/';
+        $pattern = '/public function add' . preg_quote($i18nTablePhpName, '/') . '.*[\r\n]\s*\{/';
         // Adds this chunk of code in "add...I18n" to check if we're using the default or alias var name
         $addition = $this->renderTemplate('objectAddTranslation', [
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
         ]);
-        $replacement = "\$0\n$addition";
-
-        $script = preg_replace($pattern, $replacement, $script);
+        $script = preg_replace_callback($pattern, static function (array $matches) use ($addition): string {
+            return $matches[0] . "\n" . $addition;
+        }, $script);
     }
 }

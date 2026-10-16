@@ -18,6 +18,7 @@ trait RenderTrait
         $this->behavior->backupTemplatesDirname();
         $template = $this->behavior->renderTemplate($name, $vars);
         $this->behavior->restoreTemplatesDirname();
+
         return $template;
     }
 }

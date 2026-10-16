@@ -76,7 +76,7 @@ class PropelL10n
     }
 
     /**
-     * Removes a dependeny
+     * Removes a dependency
      *
      * @param string $locale
      * @return void
@@ -109,6 +109,7 @@ class PropelL10n
     public static function setDependencies(array $dependencies): void
     {
         self::$dependencies = [];
+
         foreach ($dependencies as $k => $v) {
             self::addDependency((string)$k, (string)$v);
         }
@@ -137,6 +138,7 @@ class PropelL10n
     public static function getDependency(string $locale): ?string
     {
         $locale = PropelL10n::normalize($locale);
+
         if (self::hasDependency($locale)) {
             return self::$dependencies[$locale];
         }
@@ -145,7 +147,7 @@ class PropelL10n
     }
 
     /**
-     * Checks wether there is a dependency registered for the given locale
+     * Checks whether there is a dependency registered for the given locale
      *
      * @param string $locale
      * @return bool
@@ -153,6 +155,7 @@ class PropelL10n
     public static function hasDependency(string $locale): bool
     {
         $locale = PropelL10n::normalize($locale);
+
         return isset(self::$dependencies[$locale]);
     }
 
